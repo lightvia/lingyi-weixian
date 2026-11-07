@@ -22,7 +22,9 @@ img{max-width:100%}
 
 /* 顶部 */
 .topbar{position:sticky;top:0;z-index:50;background:linear-gradient(135deg,#2BB5A0,#3EC9B2);color:#fff;padding:14px 16px 12px;display:flex;align-items:center;gap:10px}
-.topbar .back{width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.2);color:#fff;font-size:16px;line-height:28px;text-align:center;flex:none}
+.topbar .back{width:34px;height:34px;border-radius:12px;background:#fff;color:var(--mint-dark);flex:none;box-shadow:0 2px 8px rgba(15,60,50,.18);display:flex;align-items:center;justify-content:center;transition:transform .25s cubic-bezier(.34,1.56,.64,1),opacity .15s}
+.topbar .back:active{transform:scale(.9);opacity:.7}
+.topbar .back .chev{font-size:1.35rem;font-weight:800;line-height:1;margin-top:-2px}
 .topbar h1{font-size:1.05rem;font-weight:600;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .topbar .mini{font-size:.68rem;background:rgba(255,255,255,.18);padding:3px 8px;border-radius:20px;flex:none}
 
@@ -38,6 +40,7 @@ img{max-width:100%}
 .row{display:flex;align-items:center;gap:10px}
 .between{justify-content:space-between}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
 .grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
 
 .btn{display:block;width:100%;background:var(--mint);color:#fff;font-size:1rem;font-weight:600;padding:13px;border-radius:12px;text-align:center}
@@ -170,6 +173,89 @@ canvas.chart{width:100%;height:180px;display:block}
 .ev-meta{display:flex;flex-wrap:wrap;gap:6px 12px;font-size:.72rem;color:var(--sub);margin-top:6px}
 .pill-ok{background:var(--mint-light);color:var(--mint-dark);border-radius:20px;padding:2px 10px;font-size:.68rem}
 .pill-warn{background:#FDF0E4;color:var(--warn);border-radius:20px;padding:2px 10px;font-size:.68rem}
+
+/* 阶段性小目标 */
+.ms-row{display:flex;gap:8px;margin-top:10px}
+.ms-chip{flex:1;text-align:center;border:1px dashed var(--line);border-radius:12px;padding:8px 2px;font-size:.66rem;color:var(--sub);background:#FBFDFC}
+.ms-chip b{display:block;font-size:.78rem;color:var(--ink);margin-top:2px}
+.ms-chip.done{border:1px solid var(--mint);background:var(--mint-light);color:var(--mint-dark)}
+.ms-chip.done b{color:var(--mint-dark)}
+
+/* 购药记录（电商订单风） */
+.order-item{display:flex;gap:10px;background:#fff;border-radius:14px;border:1px solid var(--line);margin-bottom:12px;overflow:hidden}
+.order-head{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:#F7FBF9;border-bottom:1px solid var(--line);font-size:.78rem}
+.order-body{display:flex;gap:12px;padding:12px 14px;align-items:center}
+.order-body .thumb{width:56px;height:56px;border-radius:10px;flex:none;border:1px solid var(--line)}
+.order-foot{display:flex;justify-content:space-between;padding:9px 14px;border-top:1px dashed var(--line);font-size:.68rem;color:var(--sub)}
+
+/* 积分商城 */
+.mall-item{display:flex;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
+.mall-item:last-child{border-bottom:none}
+.mall-item .mi-ico{width:52px;height:52px;border-radius:12px;background:var(--mint-light);display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex:none}
+
+/* ==================== 附近药房地图（自公众端 qingying.html v3.0 原样移植，2026-11-07） ==================== */
+/* 真实地图瓦片（高德） */
+#osm-map{position:relative;height:300px;border-radius:10px;overflow:hidden;background:#E8F0EE;
+  touch-action:none;user-select:none;-webkit-user-select:none}
+#map-layer{position:absolute;left:0;top:0;right:0;bottom:0;will-change:transform}
+#osm-map .tile{position:absolute;width:256px;height:256px;pointer-events:none}
+#pan-reset{position:absolute;right:8px;bottom:22px;z-index:30;display:none;width:38px;height:38px;border-radius:50%;
+  background:#fff;border:1px solid #E3EAE7;box-shadow:0 2px 8px rgba(0,0,0,.18);font-size:1.05rem;color:var(--mint-dark)}
+#pan-hint{position:absolute;left:8px;bottom:22px;z-index:6;font-size:.62rem;color:#5C6B66;
+  background:rgba(255,255,255,.85);padding:2px 7px;border-radius:9px;pointer-events:none}
+#osm-map .mk{position:absolute;transform:translate(-50%,-100%);cursor:pointer;line-height:0;
+  filter:drop-shadow(0 2px 3px rgba(0,0,0,.4))}
+#osm-map .mk.sel svg path{fill:#F2A93A}
+.ph-pop{position:absolute;z-index:20;width:238px;max-height:226px;overflow:auto;background:#fff;border-radius:12px;
+  box-shadow:0 6px 20px rgba(0,0,0,.28);padding:12px 14px;font-size:.74rem;color:var(--ink);
+  transform:translate(-50%,calc(-100% - 16px))}
+.ph-pop.below{transform:translate(-50%,20px)}
+.ph-pop:after{content:'';position:absolute;left:50%;bottom:-8px;transform:translateX(-50%);
+  border:8px solid transparent;border-top-color:#fff;border-bottom:none}
+.ph-pop.below:after{bottom:auto;top:-8px;border-top:none;border-bottom-color:#fff;border-bottom:8px solid #fff}
+.ph-pop .pp-nm{font-weight:700;font-size:.85rem;margin-bottom:4px;padding-right:18px}
+.ph-pop .pp-row{color:var(--sub);line-height:1.6;margin-top:2px}
+.ph-pop .pp-close{position:absolute;right:8px;top:6px;color:var(--sub);font-size:.95rem;padding:2px 6px}
+.ph-pop .pp-stock{display:inline-block;font-size:.68rem;padding:1px 8px;border-radius:10px;margin-top:5px}
+.ph-pop .pp-stock.yes{background:var(--mint-light);color:var(--mint-dark)}
+.ph-pop .pp-stock.no{background:#FDECEC;color:var(--red)}
+#osm-map .me-dot{position:absolute;transform:translate(-50%,-50%);width:15px;height:15px;border-radius:50%;
+  background:#E5484D;border:3px solid #fff;box-shadow:0 0 0 5px rgba(229,72,77,.28);z-index:4}
+#osm-map .me-dot:after{content:'我';position:absolute;left:50%;top:-19px;transform:translateX(-50%);
+  font-size:10px;font-weight:700;color:#E5484D;background:rgba(255,255,255,.92);border-radius:8px;
+  padding:0 6px;line-height:15px;border:1px solid rgba(229,72,77,.35)}
+.osm-attrib{position:absolute;right:3px;bottom:2px;font-size:9px;color:#555;background:rgba(255,255,255,.75);
+  padding:1px 4px;border-radius:3px;z-index:5}
+#osm-map .lm{position:absolute;transform:translate(-50%,-130%);background:rgba(255,255,255,.88);
+  color:#5C6B66;font-size:9px;padding:1px 5px;border-radius:3px;white-space:nowrap;
+  box-shadow:0 1px 2px rgba(0,0,0,.15);pointer-events:none}
+.map-wrap{background:#fff;border-radius:var(--card-r);box-shadow:0 2px 10px rgba(30,156,137,.06);padding:10px;margin-bottom:12px}
+.dist-tabs{display:flex;gap:8px;margin-bottom:10px}
+.dist-tabs button{flex:1;border:1.5px solid var(--line);border-radius:18px;padding:6px 0;font-size:.8rem;color:var(--sub);background:#fff}
+.dist-tabs button.on{background:var(--mint);border-color:var(--mint);color:#fff;font-weight:700}
+.dist-tabs button:active{transform:scale(.95)}
+.ph-item .row1{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
+.ph-item .nm{font-size:.92rem;font-weight:700}
+.stock{font-size:.7rem;padding:2px 8px;border-radius:12px}
+.stock.yes{background:var(--mint-light);color:var(--mint-dark)}
+.stock.no{background:#FDECEC;color:var(--red)}
+.ph-item .addr{font-size:.78rem;color:var(--sub);line-height:1.5}
+.ph-item .tel{font-size:.78rem;color:var(--mint-dark);margin-top:4px}
+.section-title{font-size:1.02rem;font-weight:800;color:var(--ink);margin:2px 0 10px}
+
+/* ===== iOS 风格点击质感（三端统一：轻微按压，不夸张） ===== */
+html{touch-action:manipulation}
+:root{--spring:cubic-bezier(.34,1.56,.64,1)}
+.btn,.chip,.svc-grid button,.list-item,.sci-item,.ev-card,.course-item,
+.week-pill button,.tabbar button{transition:transform .3s var(--spring),opacity .18s ease,background .18s ease,border-color .18s ease}
+.btn:active{transform:scale(.96);opacity:.9}
+.chip:active,.week-pill button:active{transform:scale(.95)}
+.svc-grid button:active{transform:scale(.94);background:var(--mint-light)}
+.list-item:active,.sci-item:active{background:#F6FBF9;border-radius:10px}
+.ev-card:active,.course-item:active{transform:scale(.98)}
+.tabbar button:active{transform:scale(.9);opacity:.7}
+.tabbar button.on .ico{animation:tabPop .45s var(--spring)}
+@keyframes tabPop{0%{transform:scale(.6)}55%{transform:scale(1.22)}100%{transform:scale(1)}}
 </style>
 </head>
 <body>
@@ -181,10 +267,21 @@ canvas.chart{width:100%;height:180px;display:block}
 /* ==================== 工具 ==================== */
 const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
 const LS={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){/* 预览环境存储被禁用时静默降级为内存态 */}},del(k){try{localStorage.removeItem(k)}catch(e){}}};
+/* 三端统一入口：线上走 GitHub Pages，本地调试走同目录别名文件 */
+const LINKS={
+  public:'https://lightvia.github.io/lightfirst/',
+  patient:'https://lightvia.github.io/lingyi-weixian/',
+  doctor:'https://lightvia.github.io/viadoctor/'
+};
+function appUrl(which){
+  const localNames={public:'qingying.html',patient:'weixian.html',doctor:'doctor.html'};
+  const local=location.protocol==='file:'||location.hostname==='localhost'||location.hostname==='127.0.0.1';
+  return local?new URL(localNames[which],location.href).href:LINKS[which];
+}
 const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function toast(msg,ms=1800){const t=$('#toast');t.innerHTML=msg;t.style.display='block';clearTimeout(t._tm);t._tm=setTimeout(()=>t.style.display='none',ms)}
 function openModal(html,center=false){$('#modal-root').innerHTML=`<div class="modal-mask ${center?'center':''}" onclick="if(event.target===this)closeModal()"><div class="modal">${html}</div></div>`}
-function closeModal(){$('#modal-root').innerHTML=''}
+function closeModal(){if(typeof stopScanner==='function')stopScanner();$('#modal-root').innerHTML=''}
 function todayStr(d=new Date()){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
 function addDays(base,n){const d=new Date(base);d.setDate(d.getDate()+n);return d}
 function fmt(d){return todayStr(d)}
@@ -225,9 +322,9 @@ const BOXES=(()=>{
       store:stores[i-1],
       storeAccept:fmt(addDays(inbound,2+i)),
       saleChannel:stores[i-1],
-      saleDate:'2026-10-'+(24+i),
+      saleDate:'2026-09-'+(7+i),
       expiry:'2027-09-'+(8+i),
-      dose:'0.25mg / 周（第 1-4 周起始剂量，具体遵医嘱）'
+      dose:'按处方记录：0.25mg / 周（演示）；后续调整遵医嘱'
     });
   }
   return arr;
@@ -235,6 +332,21 @@ const BOXES=(()=>{
 const boxByCode=c=>BOXES.find(b=>b.code===c);
 
 /* ==================== 全局状态 ==================== */
+/* 积分与公众端互通：XYWX_points 为对象结构 {total,today,date,details}，此处做双向兼容 */
+function loadPts(){
+  let v=null;try{v=JSON.parse(localStorage.getItem('XYWX_points'))}catch(e){}
+  if(v&&typeof v==='object'&&typeof v.total==='number')return v.total;
+  if(v===null||v===undefined)return 300;   /* 统一模拟人初始积分 300（与公众端一致） */
+  const n=Number(v);return isFinite(n)?n:300;
+}
+function savePts(){
+  let cur=null;try{cur=JSON.parse(localStorage.getItem('XYWX_points'))}catch(e){}
+  const today=new Date().toDateString();
+  if(!cur||typeof cur!=='object'||typeof cur.total!=='number'||!Array.isArray(cur.details))cur={total:0,today:0,date:today,details:[]};
+  if(cur.date!==today){cur.today=0;cur.date=today}
+  cur.total=S.points;
+  LS.set('XYWX_points',cur);
+}
 const S={
   profile:LS.get('XYWX_patient_profile',null),
   boxes:LS.get('XYWX_patient_boxes',[]),           // 我的药盒
@@ -244,9 +356,10 @@ const S={
   share:LS.get('XYWX_share_settings',{weight:false,waist:false,med:false}),
   moments:LS.get('XYWX_moments',null),
   reminders:LS.get('XYWX_reminders',null),
-  points:LS.get('XYWX_points',0),
+  points:loadPts(),
   goals:LS.get('XYWX_patient_goals',{weight:null,waist:null}),
   signups:LS.get('XYWX_event_signups',{}),
+  purchases:LS.get('XYWX_purchase_records',[]),
   tab:'home', sub:null, subStack:[]
 };
 const MOMENTS_DEMO=[
@@ -289,6 +402,69 @@ const SCIENCE_ARTICLES=[
   digest:'天气转凉，食欲、运动量和作息都在悄悄变化。提前做三个小调整，稳住节律。',
   body:['天气变冷后，身体本能地渴望更多热量，户外活动也相应减少。这是自然的季节节律，提前做好准备就能从容应对。','第一，调整运动计划：把户外快走换成室内操课、游泳或爬楼，保持每周运动总量不变。第二，安排「暖身加餐」：一杯无糖热豆浆或一小把坚果，比高糖点心更能稳定食欲。','第三，关注睡眠节律：日照变短容易影响情绪和作息，尽量保持固定的入睡时间，晚间减少屏幕时间。','小调整、稳执行，就是最好的坚持。']}
 ];
+/* 产品缩略图（SVG data-uri，演示包装） */
+const THUMB='data:image/svg+xml;utf8,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96"><rect width="96" height="96" rx="12" fill="#E4F7F2"/><rect x="16" y="22" width="64" height="52" rx="7" fill="#2BB5A0"/><rect x="16" y="40" width="64" height="14" fill="#fff" opacity=".94"/><text x="48" y="50.5" text-anchor="middle" font-size="11" fill="#1E9C89" font-weight="800">先维盈</text><text x="48" y="68" text-anchor="middle" font-size="6.5" fill="#fff">处方药 · 请遵医嘱使用</text></svg>');
+const MALL_GOODS=[
+ {icon:'🥤',name:'无糖酸奶兑换券',cost:120,stock:'有货'},
+ {icon:'🧺',name:'代谢友好食材包',cost:480,stock:'有货'},
+ {icon:'⚖️',name:'智能体脂秤',cost:980,stock:'有货'},
+ {icon:'📖',name:'健康食谱手册（纸质版）',cost:260,stock:'有货'},
+ {icon:'🏃',name:'运动毛巾',cost:150,stock:'有货'},
+ {icon:'🫙',name:'保温随行杯',cost:320,stock:'补货中'}];
+function seedPurchases(){
+  if(S.purchases.length)return;
+  S.purchases=[
+   {id:'DD20261028001',date:'2026-10-28',channel:'康宁大药房张江店',way:'线下门店（处方购买）',status:'已完成',
+    items:[{name:'先维盈（演示包装）',spec:'0.25mg × 4 支 / 盒',qty:1,thumb:THUMB}]},
+   {id:'DD20260920002',date:'2026-09-20',channel:'京东大药房旗舰店',way:'电商平台（处方审核后发货）',status:'已完成',
+    items:[{name:'先维盈（演示包装）',spec:'0.25mg × 4 支 / 盒',qty:2,thumb:THUMB}]}];
+  LS.set('XYWX_purchase_records',S.purchases);
+}
+function jumpPublic(){ /* 唤起公众端积分商城：本地/线上自动切换，XYWX_points 同源共享 */
+  toast('正在唤起「轻盈公众端」积分商城…');
+  setTimeout(()=>{location.href=appUrl('public')+'?from=weixian&tab=shop'},700);
+}
+function importOrders(){ /* 一键导入外部电商订单（模拟） */
+  const src=['阿里健康大药房','美团买药·益丰大药房'][Math.floor(Math.random()*2)];
+  const d=todayStr();
+  S.purchases.unshift({id:'DD'+d.replace(/-/g,'')+'99',date:d,channel:src,way:'电商订单导入（模拟）',status:'已完成',
+    items:[{name:'先维盈（演示包装）',spec:'0.25mg × 4 支 / 盒',qty:1,thumb:THUMB}]});
+  LS.set('XYWX_purchase_records',S.purchases);render();
+  toast('已从 '+src+' 导入 1 笔订单（模拟）');
+}
+function openManualOrder(){
+  openModal(`<h3 style="margin-bottom:10px">手动录入购药记录</h3>
+    <div class="field"><label>购药日期</label><input type="date" id="po-date" value="${todayStr()}" max="${todayStr()}"></div>
+    <div class="field"><label>渠道 / 地点</label><input id="po-channel" placeholder="如：益丰大药房徐汇店 / 京东大药房"></div>
+    <div class="field"><label>内容</label><input id="po-item" placeholder="如：先维盈 0.25mg × 1 盒"></div>
+    <button class="btn" onclick="doManualOrder()">保存记录</button>
+    <button class="btn gray" style="margin-top:8px" onclick="closeModal()">取消</button>`);
+}
+function doManualOrder(){
+  const d=$('#po-date').value,ch=$('#po-channel').value.trim(),it=$('#po-item').value.trim();
+  if(!d||!ch||!it){toast('请完整填写购药信息');return}
+  S.purchases.unshift({id:'DD'+d.replace(/-/g,'')+String(S.purchases.length+1).padStart(2,'0'),date:d,channel:ch,way:'手动录入',status:'已完成',
+    items:[{name:it,spec:'',qty:1,thumb:THUMB}]});
+  LS.set('XYWX_purchase_records',S.purchases);closeModal();render();toast('购药记录已保存（演示）');
+}
+/* 问题反馈 */
+let FB_CAT=null;
+function pickFbCat(el,cat){FB_CAT=cat;$$('#fb-cats .chip').forEach(c=>c.classList.toggle('on',c===el))}
+function submitFeedback(){
+  const txt=$('#fb-text').value.trim();
+  if(!FB_CAT){toast('请选择反馈类型');return}
+  if(!txt){toast('请填写反馈内容');return}
+  const contact=$('#fb-contact').value.trim(),wantReply=$('#fb-reply').checked;
+  const list=LS.get('XYWX_feedback',[]);
+  const rec={id:'FB'+Date.now().toString(36).toUpperCase(),cat:FB_CAT,text:txt,contact,wantReply,date:todayStr()};
+  list.push(rec);LS.set('XYWX_feedback',list);
+  S.points+=5;savePts();
+  openModal(`<div style="text-align:center"><div style="font-size:2.2rem">💚</div>
+  <h3 style="margin:8px 0">感谢您的反馈</h3>
+  <p class="tiny" style="text-align:left;line-height:2">反馈编号：${rec.id}<br>反馈类型：${FB_CAT}<br>提交时间：${rec.date}<br>积分 +5（当前 ${S.points} 分，与公众端互通）</p>
+  <p class="tiny" style="text-align:left;margin-top:4px">${wantReply?'我们会在 1-3 个工作日内通过您留下的联系方式回复（演示）。':'您的反馈已收到，将用于改进平台服务。'}</p>
+  <button class="btn" style="margin-top:12px" onclick="closeModal();render()">不客气</button></div>`,true);
+}
 const CITY_EVENTS=[
  {id:1,img:POSTER_RUN,title:'「轻盈同行」城市乐跑 · 上海站',date:'2026-11-15（周日）08:30 集合',place:'浦东前滩休闲公园 12 号门',city:'上海',km:'5km 欢乐跑',
   quota:200,signed:137,org:'平台患者教育项目组',
@@ -304,21 +480,93 @@ const CITY_EVENTS=[
   notice:'工作坊为公益性饮食教育活动，菜谱为通用健康示例，个体化饮食方案请咨询医生或注册营养师。'}
 ];
 
-/* 演示用初始记录（建档后若无记录则生成14天） */
+/* 演示用初始记录（建档后若无记录则生成约 3 个月，趋势：体重-10kg、腰围-10cm） */
 function seedRecords(){
   if(S.records.length)return;
-  const w0=78.4;
-  for(let i=13;i>=0;i--){
-    const d=addDays(new Date(),-i);
-    S.records.push({date:fmt(d),weight:Math.round((w0-(13-i)*0.18+Math.sin(i)*0.3)*10)/10,waist:Math.round(96-(13-i)*0.35)});
+  const wEnd=S.profile?+S.profile.weight||78:78, wStart=wEnd+7;   /* 初始 85kg → 当前 78kg */
+  const sEnd=S.profile?+S.profile.waist||80:80, sStart=sEnd+15;   /* 初始 95cm → 当前 80cm */
+  for(let i=59;i>=0;i--){   /* 近 2 个月 */
+    const d=addDays(new Date(),-i),p=(59-i)/59;
+    S.records.push({
+      date:fmt(d),
+      weight:Math.round((wStart-(wStart-wEnd)*p+Math.sin(i*1.3)*0.35+(i%9===4?0.5:0))*10)/10,
+      waist:Math.round(sStart-(sStart-sEnd)*p+Math.sin(i*0.9)*0.3)
+    });
   }
-  for(let i=13;i>=0;i--){
-    const d=addDays(new Date(),-i);
-    S.meds.push({date:fmt(d),time:'20:0'+(i%6),note:i===10?'注射后轻微恶心，次日缓解':(i===5?'正常，无不适':'')});
+  const monday=addDays(new Date(),-((new Date().getDay()+6)%7));   /* 最近一个周一 */
+  for(let i=8;i>=0;i--){ /* 规律每周一使用 A药 0.25mg，约 2 个月 */
+    const d=addDays(monday,-i*7);
+    S.meds.push({date:fmt(d),time:'20:00',drug:'A药',dose:'0.25 mg',note:i===5?'注射后轻微恶心，次日缓解':(i===2?'正常，无不适':'')});
   }
   saveRecords();
 }
-function saveRecords(){LS.set('XYWX_patient_records',S.records);LS.set('XYWX_patient_meds',S.meds)}
+function saveRecords(){dedupeRecords();LS.set('XYWX_patient_records',S.records);LS.set('XYWX_patient_meds',S.meds);syncFollowup()}
+/* 随访同步：只写入同源 localStorage，不向医生弹消息；授权字段逐项裁剪 */
+function followupDayGap(date,now){
+  if(!date||!now)return null;
+  const t=new Date(date+'T00:00:00').getTime(),n=new Date(now).getTime();
+  return Number.isFinite(t)&&Number.isFinite(n)?Math.max(0,Math.floor((n-t)/864e5)):null;
+}
+function buildFollowup(records,meds,share,now=new Date()){
+  const allowed={weight:!!(share&&share.weight),waist:!!(share&&share.waist),med:!!(share&&share.med)};
+  const cleanRecords=(Array.isArray(records)?records:[]).filter(r=>r&&r.date).map(r=>{
+    const out={date:r.date};
+    if(allowed.weight&&Number.isFinite(Number(r.weight))&&r.weight!=null)out.weight=Number(r.weight);
+    if(allowed.waist&&Number.isFinite(Number(r.waist))&&r.waist!=null)out.waist=Number(r.waist);
+    return out;
+  }).filter(r=>r.weight!=null||r.waist!=null).sort((a,b)=>a.date.localeCompare(b.date));
+  const cleanMeds=allowed.med?(Array.isArray(meds)?meds:[]).filter(m=>m&&m.date).map(m=>({date:m.date,time:m.time||'',drug:m.drug||'',dose:m.dose||'',note:m.note||''})).sort((a,b)=>(a.date+' '+a.time).localeCompare(b.date+' '+b.time)):[];
+  const recordGap=cleanRecords.length?followupDayGap(cleanRecords[cleanRecords.length-1].date,now):null;
+  const medGap=allowed.med&&cleanMeds.length?followupDayGap(cleanMeds[cleanMeds.length-1].date,now):null;
+  let adherence=null;
+  if(allowed.med){
+    const since=new Date(now).getTime()-55*864e5,weeks=new Set();
+    cleanMeds.forEach(m=>{const t=new Date(m.date+'T00:00:00').getTime();if(t>=since&&t<=new Date(now).getTime()){const d=new Date(t);d.setDate(d.getDate()-((d.getDay()+6)%7));weeks.add(todayStr(d))}});
+    adherence=Math.min(100,Math.round(weeks.size/8*100));
+  }
+  const warnings=[];
+  if(allowed.med&&(medGap==null||medGap>=11))warnings.push(medGap==null?'暂无用药记录，建议随访确认':'已 '+medGap+' 天未记录用药，超过每周计划间隔 1.5 倍');
+  if((allowed.weight||allowed.waist)&&(recordGap==null||recordGap>=7))warnings.push(recordGap==null?'暂无已授权的体重或腰围随访记录':'已 '+recordGap+' 天未记录体重或腰围，随访记录断档');
+  return {version:1,syncedAt:new Date(now).toISOString(),share:allowed,records:cleanRecords,meds:cleanMeds,recordGap,medGap,adherence,warnings};
+}
+function syncFollowup(){
+  if(!S.profile||!S.doctor)return;
+  const patients=LS.get('XYWX_doctor_patients',[]),list=Array.isArray(patients)?patients:[];
+  const followup=buildFollowup(S.records,S.meds,S.share),index=list.findIndex(p=>p&&p.pid===S.profile.pid);
+  const base=index>=0?list[index]:{};
+  const patient=Object.assign({},base,{pid:S.profile.pid,name:S.profile.nick,age:S.profile.age,bmi:bmiNow(),weeksOn:weeksOn(),doctor:S.doctor.code,followup,lastRecord:followup.recordGap,medGap:followup.medGap,adherence:followup.adherence,warnings:followup.warnings,status:followup.warnings.length?'warning':'active',syncedAt:followup.syncedAt});
+  if(index>=0)list[index]=patient;else list.push(patient);
+  LS.set('XYWX_doctor_patients',list);
+}
+/* 关怀消息：独立确认记录，确认后刷新也不会重新出现 */
+const CARE_BLOCKED_TERMS=['买药','购药','购买','下单','补货','库存','优惠','促销','折扣','价格','费用','药房','药店','电商','快递','续方','加量','减量','停药','换药','调整剂量'];
+function careComplianceError(text){
+  const value=String(text||'').trim();
+  if(!value)return '关怀内容不能为空';
+  if(value.length>500)return '关怀内容请控制在 500 字以内';
+  const term=CARE_BLOCKED_TERMS.find(word=>value.includes(word));
+  return term?'内容包含“'+term+'”，请仅发送随访关怀，不涉及交易或用药调整':null;
+}
+function pendingCareNotices(){
+  if(!S.profile)return[];
+  const notices=LS.get('XYWX_patient_notices',[]),acks=LS.get('XYWX_patient_notice_acks',{});
+  return (Array.isArray(notices)?notices:[]).filter(n=>n&&n.type==='care'&&n.pid===S.profile.pid&&n.id&&n.ts&&!careComplianceError(n.text)&&!(acks&&acks[n.id])).sort((a,b)=>new Date(a.ts)-new Date(b.ts));
+}
+function careTime(ts){const d=new Date(ts);return Number.isFinite(d.getTime())?todayStr(d)+' '+String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0'):''}
+function careNoticeHTML(){
+  const n=pendingCareNotices()[0];if(!n)return'';
+  return `<div class="card" id="careNotice" style="border:1px solid #BFE6DD;background:#F3FBF8">
+    <div class="row between"><h3 style="margin:0"><span class="dot"></span>医生关怀</h3><span class="tag">${esc(n.doc||'我的医生')} 医生</span></div>
+    <p style="font-size:.88rem;line-height:1.9;margin:12px 0 8px;white-space:pre-wrap">${esc(n.text)}</p>
+    <div class="tiny">发送时间：${careTime(n.ts)}</div>
+    <button class="btn sm" style="margin-top:12px" data-id="${esc(n.id)}" onclick="ackCare(this.dataset.id)">我知道了</button>
+  </div>`;
+}
+function ackCare(id){
+  if(!pendingCareNotices().some(n=>n.id===id))return;
+  const acks=LS.get('XYWX_patient_notice_acks',{}),next=acks&&typeof acks==='object'?acks:{};
+  next[id]=new Date().toISOString();LS.set('XYWX_patient_notice_acks',next);render();toast('已确认收到医生关怀');
+}
 function bmiNow(){return S.profile?(S.profile.weight/((S.profile.height/100)**2)).toFixed(1):'--'}
 function weeksOn(){const c=S.boxes[0];return c?Math.max(1,Math.round((new Date()-new Date(c.saleDate))/6048e5)):1}
 function saveGoals(){LS.set('XYWX_patient_goals',S.goals)}
@@ -358,22 +606,23 @@ function saveGoal(metric){
   toast(METRIC_NAME[metric]+'目标已保存：'+v+' '+METRIC_UNIT[metric]);
 }
 function clearGoal(metric){S.goals[metric]=null;saveGoals();closeModal();render();toast('已清除'+METRIC_NAME[metric]+'目标')}
-function fillDemoProfile(){ /* 一键填写演示信息：28岁女士 */
+function fillDemoProfile(){ /* 一键填写演示信息：28岁女士，已合规用药并注册使用产品2个月（三端统一模拟人） */
   $('#pf-nick').value='小满同学';$('#pf-age').value=28;$('#pf-gender').value='女';
-  $('#pf-h').value=165;$('#pf-w').value=82;$('#pf-waist').value=90;
-  const gw=$('#pf-gw');if(gw)gw.value=78;
-  const gs=$('#pf-gwaist');if(gs)gs.value=85;
-  $$('#pf-meta .chip').forEach(c=>c.classList.toggle('on',c.dataset.v==='高血脂'||c.dataset.v==='PCOS'));
-  toast('已填入演示信息，可直接完成建档 ✨');
+  $('#pf-h').value=165;$('#pf-w').value=78;$('#pf-waist').value=80;
+  const gw=$('#pf-gw');if(gw)gw.value=60;
+  const gs=$('#pf-gwaist');if(gs)gs.value=65;
+  $$('#pf-meta .chip').forEach(c=>c.classList.toggle('on',['高血脂','PCOS','膝关节损伤'].includes(c.dataset.v)));
+  if(!OB.doc&&!OB.noDoc){OB.doc=DOCTORS[0]}   /* 统一模拟人绑定医生：陈静怡（若已选"暂无医生"则尊重选择） */
+  toast('已填入演示信息：初始 85kg/95cm → 当前 78kg/80cm，目标 60kg/65cm，已陪伴 2 个月 ✨');
 }
 
 /* ==================== 路由 ==================== */
 function nav(tab,sub){S.tab=tab;S.sub=sub||null;S.subStack=[];render()}
 function pushSub(sub){S.subStack.push(S.sub);S.sub=sub;render();window.scrollTo(0,0)}
 function back(){S.sub=S.subStack.pop()||null;render();window.scrollTo(0,0)}
-function topbar(title){return `<div class="topbar"><div class="back" onclick="back()">‹</div><h1>${title}</h1><span class="mini">演示</span></div>${DEMO_STRIP}`}
+function topbar(title){return `<div class="topbar"><div class="back" onclick="back()" aria-label="返回"><span class="chev">‹</span></div><h1>${title}</h1><span class="mini">演示</span></div>${DEMO_STRIP}`}
 function shell(inner){
-  const tabs=[['home','🏠','首页'],['record','📈','记录'],['service','🧭','服务'],['me','👤','我的'],['plaza','🌿','广场']];
+  const tabs=[['home','🏠','首页'],['record','📈','记录'],['service','🧭','服务'],['plaza','🌿','广场'],['me','👤','我的']];
   return `<div class="topbar"><h1>轻盈维先</h1><span style="font-size:.7rem;opacity:.85">已用药患者管理服务平台</span><span class="mini">演示</span></div>${DEMO_STRIP}
   <div class="screen">${inner}</div>
   <div class="tabbar">${tabs.map(t=>`<button class="${S.tab===t[0]?'on':''}" onclick="nav('${t[0]}')"><span class="ico">${t[1]}</span>${t[2]}</button>`).join('')}</div>`;
@@ -399,12 +648,21 @@ function render(){
     if(!RENDER_WARNED){RENDER_WARNED=true;toast('页面开小差了，已为您恢复首页')}
   }
 }
-window.addEventListener('storage',e=>{ /* 跨标签页联动：与医生端互通 */
+function refreshSharedPoints(){
+  const pts=loadPts();
+  if(pts!==S.points){S.points=pts;render()}
+}
+window.addEventListener('storage',e=>{ /* 跨标签页联动：积分、医生数据与关怀 */
+  if(e.key==='XYWX_points'){refreshSharedPoints();return}
+  if(e.key==='XYWX_patient_notices'){if(S.tab==='home'&&!S.sub)render();return}
   if(e.key==='XYWX_doctor_patients'||e.key==='XYWX_patient_profile'){render()}
 });
+/* 从公众端商城返回（含 bfcache）时重新读取积分，避免显示兑换前的旧值 */
+window.addEventListener('pageshow',refreshSharedPoints);
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')refreshSharedPoints()});
 
 /* ==================== 注册绑定流程 ==================== */
-let OB={step:0,box:null,doc:null,skipDoc:false,profile:{}};
+let OB={step:0,box:null,doc:null,noBox:false,noDoc:false,profile:{}};
 function onboardingHTML(){
   const steps=`<div class="step-dots">${[0,1,2,3].map(i=>`<i class="${OB.step===i?'on':''}"></i>`).join('')}</div>`;
   let body='';
@@ -414,28 +672,32 @@ function onboardingHTML(){
       <div style="font-size:3rem;margin:10px 0">🌿</div>
       <p class="muted">本平台为<strong>已开具有关处方药物</strong>的患者提供用药管理、健康记录与随访支持服务。</p>
       <div class="hr"></div>
-      <p class="tiny">使用流程：① 绑定药盒码 → ② 绑定医生（可选）→ ③ 建立健康档案</p>
+      <p class="tiny">使用流程：① 绑定药盒码 → ② 绑定医生（两步至少完成一项）→ ③ 建立健康档案</p>
+      <p class="tiny" style="margin-top:6px;color:var(--warn)">如药盒与医生都没有，请先前往医疗机构开具处方后再注册</p>
     </div>
-    <button class="btn" onclick="OB.step=1;render()">开始绑定药盒</button>
+    <button class="btn" onclick="OB.step=1;render()">开始注册绑定</button>
     <button class="btn ghost" style="margin-top:10px" onclick="pushLegal()">查看《支持方与合规》说明</button>`;
   }else if(OB.step===1){
     body=`<div class="page-title" style="text-align:center">第 1 步 · 绑定药盒码</div>${steps}
     ${OB.box?boxSummary(OB.box,true):`
     <div class="card">
-      <div class="scan-box"><div class="corner c1"></div><div class="corner c2"></div><div class="corner c3"></div><div class="corner c4"></div><div class="scan-line"></div><div class="scan-txt">将药盒上的追溯码对准取景框</div></div>
-      <p class="tiny" style="text-align:center;margin-top:8px">模拟识别中，约 2 秒后自动完成…（也可手动选择或输入）</p>
+      <div class="scan-box"><div class="corner c1"></div><div class="corner c2"></div><div class="corner c3"></div><div class="corner c4"></div><div class="scan-txt">虚拟药盒扫码演示</div></div>
+      <p class="tiny" style="text-align:center;margin:8px 0 10px">演示环境无真实药盒，点击下方按钮后展示虚拟扫码动画；不会调用手机相机</p>
+      <button class="btn" onclick="startBoxScan(this)">▣ 模拟扫码识别药盒</button>
     </div>
     <div class="card">
       <h3><span class="dot"></span>手动选择演示药盒</h3>
       <div class="chip-group">${BOXES.map(b=>`<button class="chip" onclick="obBindBox('${b.code}')">${b.code}</button>`).join('')}</div>
       <div class="field" style="margin-top:14px"><label>或输入药盒编码</label><input id="ob-box-input" placeholder="如 BOX-8842-0001"></div>
       <button class="btn line" onclick="obBindBoxInput()">确认绑定</button>
-    </div>`}`;
+    </div>
+    <button class="btn ghost" onclick="OB.noBox=true;OB.step=2;render()">暂无药盒，下一步 ›</button>
+    <p class="tiny" style="text-align:center;margin-top:8px">药盒与医生至少绑定一项即可注册；暂无药盒可在注册后于「溯源中心」扫码补绑</p>`}`;
   }else if(OB.step===2){
     body=`<div class="page-title" style="text-align:center">第 2 步 · 绑定我的医生</div>${steps}
     <div class="card" style="text-align:center;padding:20px">
       <p style="font-size:2rem">🩺</p>
-      <p class="muted" style="margin:8px 0">绑定后，您的医生可在其工作台查看您<strong>主动共享</strong>的三项健康数据（默认不共享，可稍后设置）。</p>
+      <p class="muted" style="margin:8px 0">绑定即表示您知悉并同意向该医生同步<strong>体重、腰围和用药频次</strong>，用于静默随访与依从预警；之后可在「数据共享授权」中逐项撤回。</p>
     </div>
     ${OB.doc?`
     <div class="card"><div class="row"><div class="avatar lg">${OB.doc.name[0]}</div>
@@ -446,8 +708,9 @@ function onboardingHTML(){
       <button class="btn gray" style="margin-top:8px" onclick="OB.doc=null;render()">重新选择</button></div>`
     :`<div class="card">
       <h3><span class="dot"></span>方式一：扫描医生绑定码</h3>
-      <div class="scan-box" style="width:190px;height:190px"><div class="corner c1"></div><div class="corner c2"></div><div class="corner c3"></div><div class="corner c4"></div><div class="scan-line"></div><div class="scan-txt">对准医生端「我的绑定码」</div></div>
-      <p class="tiny" style="text-align:center;margin-top:8px">模拟识别中，约 2 秒后自动完成…（实际环境：医生在其工作台出示专属绑定二维码，患者扫码即绑定）</p>
+      <div class="scan-box" style="width:190px;height:190px"><div class="corner c1"></div><div class="corner c2"></div><div class="corner c3"></div><div class="corner c4"></div><div class="scan-txt">对准医生端「我的绑定码」</div></div>
+      <p class="tiny" style="text-align:center;margin:8px 0 10px">点击后优先唤起相机真实扫码；未授权或无法启动时展示虚拟扫码动画</p>
+      <button class="btn" onclick="startDocScan(this)">📷 扫码医生绑定码</button>
     </div>
     <div class="card">
       <h3><span class="dot"></span>方式二：输入医生唯一编号</h3>
@@ -459,7 +722,8 @@ function onboardingHTML(){
       ${DOCTORS.map(d=>`<div class="list-item" onclick='obDocPick(${JSON.stringify(d.code)})'><div class="avatar">${d.name[0]}</div>
       <div style="flex:1"><b>${esc(d.name)}</b> <span class="tag">${esc(d.title)}</span><div class="tiny" style="margin-top:2px">${esc(d.hospital)} · ${esc(d.dept)}</div></div><span class="link">选择 ›</span></div>`).join('')}
     </div>`}
-    <button class="btn ghost" onclick="OB.skipDoc=true;OB.step=3;render()">暂不绑定，稍后再说</button>`;
+    <button class="btn ghost" onclick="OB.noDoc=true;OB.step=3;render()">暂无医生，稍后再绑定 ›</button>
+    <p class="tiny" style="text-align:center;margin-top:8px">药盒与医生至少绑定一项才能注册；暂无医生可在注册后于「我的医生」扫码补绑</p>`;
   }else{
     body=`<div class="page-title" style="text-align:center">第 3 步 · 建立健康档案</div>${steps}
     <button class="btn ghost" style="margin-bottom:12px" onclick="fillDemoProfile()">✨ 一键填写演示信息（28 岁女士示例）</button>
@@ -478,8 +742,8 @@ function onboardingHTML(){
         <div class="field"><label>目标体重（kg，可选）</label><input id="pf-gw" type="number" placeholder="如 75" value="${OB.profile.gw||''}"></div>
       </div>
       <div class="field"><label>目标腰围（cm，可选）</label><input id="pf-gwaist" type="number" placeholder="如 88" value="${OB.profile.gwaist||''}"></div>
-      <div class="field"><label>代谢情况（可多选）</label>
-        <div class="chip-group" id="pf-meta">${['高血脂','高尿酸','PCOS','无'].map(m=>`<button type="button" class="chip" data-v="${m}">${m}</button>`).join('')}</div>
+      <div class="field"><label>超重合并症情况（可多选）</label>
+        <div class="chip-group" id="pf-meta">${['高血脂','高血糖','高血压','高尿酸','脂肪肝','PCOS','膝关节损伤','睡眠呼吸暂停','甲减','无'].map(m=>`<button type="button" class="chip" data-v="${m}">${m}</button>`).join('')}</div>
       </div>
       <p class="tiny">健康数据仅存储于本机浏览器（演示数据），详见「服务-隐私中心」。</p>
     </div>
@@ -493,10 +757,142 @@ function bindOnboarding(){
     if(v==='无'){$$('#pf-meta .chip').forEach(x=>x.classList.toggle('on',x===c))}
     else{$('#pf-meta .chip[data-v="无"]').classList.remove('on');c.classList.toggle('on')}
   });
-  // 模拟扫码 2 秒自动识别
-  if(OB.step===1&&!OB.box){setTimeout(()=>{if(OB.step===1&&!OB.box&&!S.profile){obBindBox('BOX-8842-000'+ (1+Math.floor(Math.random()*5)))}},2000)}
-  // 模拟扫医生绑定码 2 秒自动识别
-  if(OB.step===2&&!OB.doc){setTimeout(()=>{if(OB.step===2&&!OB.doc&&!S.profile){obDocPick('DR-2026-0001')}},2000)}
+}
+/* ==================== 扫码：药盒仅虚拟演示；医生码真实相机优先，失败自动降级 ==================== */
+function startBoxScan(btn){simulateScan('box','演示环境无真实药盒')}
+function startDocScan(btn){openScanner('doc')}
+let SCAN_STREAM=null,SCAN_TIMER=0,SCAN_SESSION=0;
+function stopScanner(){
+  SCAN_SESSION++;   /* 使所有悬挂的 await 恢复后失效，防止取消后迟到的降级动画弹出 */
+  if(SCAN_TIMER){clearTimeout(SCAN_TIMER);SCAN_TIMER=0}
+  if(SCAN_STREAM){SCAN_STREAM.getTracks().forEach(t=>t.stop());SCAN_STREAM=null}
+}
+/* 解析扫码文本：支持纯编码、带参数的 URL、编码子串 */
+function parseScanCode(kind,text){
+  const t=(text||'').trim();
+  if(!t)return null;
+  if(kind==='box'){
+    if(boxByCode(t))return t;
+    const m=t.match(/[?&]box=([A-Za-z0-9-]+)/);if(m&&boxByCode(m[1]))return m[1];
+    const m2=t.match(/BOX-\d{4}-\d{4}/);if(m2&&boxByCode(m2[0]))return m2[0];
+  }else{
+    const up=t.toUpperCase();
+    if(DOCTORS.find(x=>x.code===up))return up;
+    const m=t.match(/[?&]doc=(DR-[A-Za-z0-9-]+)/i);
+    if(m){const c=m[1].toUpperCase();if(DOCTORS.find(x=>x.code===c))return c}
+    const m2=t.match(/DR-\d{4}-\d{4}/i);
+    if(m2){const c=m2[0].toUpperCase();if(DOCTORS.find(x=>x.code===c))return c}
+  }
+  return null;
+}
+function onScanSuccess(kind,code){
+  if(kind==='box'){if(!S.profile)obBindBox(code);else addBox(code)}
+  else{if(!S.profile)obDocPick(code);else bindDoc(code)}
+}
+/* 药盒主动模拟，或医生码无权限/不支持时的降级：先展示可取消的虚拟动画，再完成绑定 */
+function simulateScan(kind,reason){
+  stopScanner();
+  openModal(`<h3 style="margin-bottom:10px">虚拟扫码（演示）</h3>
+    <div class="scan-box" style="width:100%;height:260px">
+      <div class="corner c1"></div><div class="corner c2"></div><div class="corner c3"></div><div class="corner c4"></div>
+      <div class="scan-line"></div><div class="scan-txt">正在模拟识别${kind==='box'?'药盒追溯码':'医生绑定码'}…</div>
+    </div>
+    <p class="tiny" style="text-align:center;margin:10px 0">${esc(reason||'演示环境')}；当前仅展示虚拟动画，不会读取真实信息</p>
+    <button class="btn gray" onclick="stopScanner();closeModal()">取消</button>`,true);
+  SCAN_TIMER=setTimeout(()=>{
+    SCAN_TIMER=0;closeModal();
+    if(kind==='box'){
+      if(!S.profile){obBindBox('BOX-8842-000'+(1+Math.floor(Math.random()*5)))}
+      else{
+        const left=BOXES.filter(b=>!S.boxes.find(x=>x.code===b.code));
+        if(left.length)addBox(left[0].code);else toast('5 个演示药盒均已绑定');
+      }
+    }else{
+      if(!S.profile){obDocPick('DR-2026-0001')}
+      else{bindDoc('DR-2026-0001')}
+    }
+  },2000);
+}
+let _jsqrPromise=null;
+function loadJsQR(){   /* BarcodeDetector 不可用时，CDN 加载 jsQR 兜底解码 */
+  if(window.jsQR)return Promise.resolve();
+  if(_jsqrPromise)return _jsqrPromise;
+  _jsqrPromise=new Promise((res,rej)=>{
+    const sc=document.createElement('script');
+    sc.src='https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js';
+    sc.onload=()=>window.jsQR?res():rej(new Error('jsQR unavailable'));
+    sc.onerror=()=>rej(new Error('jsQR load failed'));
+    document.head.appendChild(sc);
+    setTimeout(()=>rej(new Error('jsQR timeout')),8000);
+  });
+  return _jsqrPromise;
+}
+async function openScanner(kind){
+  if(kind==='box'){simulateScan('box','演示环境无真实药盒');return}
+  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){simulateScan(kind,'当前环境不支持相机');return}
+  const session=++SCAN_SESSION;
+  openModal(`<h3 style="margin-bottom:10px">扫描医生绑定码</h3>
+    <div class="scan-box" style="width:100%;height:260px">
+      <video id="scan-video" autoplay playsinline muted style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></video>
+      <div class="corner c1"></div><div class="corner c2"></div><div class="corner c3"></div><div class="corner c4"></div>
+      <div class="scan-line"></div>
+      <div class="scan-txt" id="scan-status">正在启动相机…</div>
+    </div>
+    <p class="tiny" style="text-align:center;margin:8px 0">对准医生端「我的绑定码」二维码，识别成功自动进入下一步</p>
+    <button class="btn ghost" onclick="simulateScan('doc','已手动切换')">改用模拟扫码（演示）</button>
+    <button class="btn gray" style="margin-top:8px" onclick="stopScanner();closeModal()">取消</button>`,true);
+  try{
+    SCAN_STREAM=await navigator.mediaDevices.getUserMedia({video:{facingMode:'environment'},audio:false});
+  }catch(e){
+    if(session!==SCAN_SESSION)return;   /* 用户已取消，不再降级弹动画 */
+    const reason=(e&&e.name==='NotAllowedError')?'未获得相机权限':((e&&e.name==='NotFoundError')?'未检测到可用相机':'相机启动失败');
+    simulateScan(kind,reason);return;
+  }
+  if(session!==SCAN_SESSION){stopScanner();return}   /* 等待相机期间用户已取消：关闭迟到的流 */
+  const v=$('#scan-video');
+  if(!v){stopScanner();return}
+  v.srcObject=SCAN_STREAM;try{await v.play()}catch(e){}
+  const st=$('#scan-status');if(st)st.textContent='对准二维码，保持平稳';
+  let detector=null;
+  if('BarcodeDetector' in window){
+    try{detector=new BarcodeDetector({formats:['qr_code','code_128','data_matrix']})}
+    catch(e){try{detector=new BarcodeDetector()}catch(e2){}}
+  }
+  if(!detector){
+    try{await loadJsQR()}catch(e){
+      if(session!==SCAN_SESSION)return;   /* 用户已取消（含 jsQR 8 秒超时迟到），不再降级弹动画 */
+      simulateScan(kind,'当前浏览器不支持扫码识别');return
+    }
+  }
+  if(session!==SCAN_SESSION){stopScanner();return}
+  const cv=document.createElement('canvas'),ctx=cv.getContext('2d',{willReadFrequently:true});
+  let lastMiss=0;
+  const tick=async()=>{
+    if(session!==SCAN_SESSION||!SCAN_STREAM)return;
+    if(v.readyState>=2&&v.videoWidth){
+      try{
+        let text=null;
+        if(detector){
+          const codes=await detector.detect(v);
+          if(codes&&codes.length)text=codes[0].rawValue;
+        }else{
+          cv.width=v.videoWidth;cv.height=v.videoHeight;ctx.drawImage(v,0,0);
+          const img=ctx.getImageData(0,0,cv.width,cv.height);
+          const code=window.jsQR&&window.jsQR(img.data,img.width,img.height,{inversionAttempts:'dontInvert'});
+          if(code&&code.data)text=code.data;
+        }
+        if(text){
+          const code=parseScanCode(kind,text);
+          if(code){stopScanner();closeModal();onScanSuccess(kind,code);return}
+          const now=Date.now();
+          if(now-lastMiss>2500){lastMiss=now;toast('未识别为有效'+(kind==='box'?'药盒码':'医生绑定码')+'，请重新对准')}
+        }
+      }catch(e){}
+    }
+    if(session!==SCAN_SESSION)return;   /* 解码期间用户已取消：不得重排 tick */
+    SCAN_TIMER=setTimeout(tick,280);
+  };
+  tick();
 }
 function obBindBox(code){
   const b=boxByCode(code.trim());
@@ -524,6 +920,13 @@ function obDocInput(){
 }
 function obDocDone(){OB.step=3;render();toast('医生绑定成功')}
 function obFinish(){
+  if(!OB.box&&!OB.doc){   /* 药盒/医生必须至少一项，否则提示请开处方 */
+    openModal(`<div style="text-align:center"><div style="font-size:2.2rem">🩺</div>
+    <h3 style="margin:8px 0">请先开具处方</h3>
+    <p class="muted" style="line-height:1.9;text-align:left">注册「轻盈维先」需要至少完成<b>药盒绑定</b>或<b>医生绑定</b>其中一项。<br>如您尚未就诊，请先前往正规医疗机构<b>开具处方</b>，再回来扫码注册。</p>
+    <button class="btn" style="margin-top:12px" onclick="closeModal();OB.step=1;render()">返回绑定</button></div>`,true);
+    return;
+  }
   const nick=$('#pf-nick').value.trim(),age=+$('#pf-age').value,gender=$('#pf-gender').value,
         h=+$('#pf-h').value,w=+$('#pf-w').value,waist=+$('#pf-waist').value;
   if(!nick){toast('请填写昵称');return}
@@ -531,19 +934,18 @@ function obFinish(){
   const meta=$$('#pf-meta .chip.on').map(c=>c.dataset.v);
   const gw=+($('#pf-gw')&&$('#pf-gw').value),gwaist=+($('#pf-gwaist')&&$('#pf-gwaist').value);
   if(gw>0)S.goals.weight=gw;if(gwaist>0)S.goals.waist=gwaist;saveGoals();
-  const profile={pid:'P'+Date.now().toString(36).toUpperCase(),nick,age,gender,height:h,weight:w,waist,meta,created:todayStr(),doctor:OB.skipDoc?null:(OB.doc?OB.doc.code:null)};
+  const profile={pid:'P'+Date.now().toString(36).toUpperCase(),nick,age,gender,height:h,weight:w,waist,meta,created:todayStr(),doctor:OB.noDoc?null:(OB.doc?OB.doc.code:null)};
   S.profile=profile;LS.set('XYWX_patient_profile',profile);
   if(OB.doc){S.doctor=OB.doc;LS.set('XYWX_doctor_profile',OB.doc)}
   if(OB.box&&!S.boxes.find(b=>b.code===OB.box.code)){S.boxes.push(OB.box);LS.set('XYWX_patient_boxes',S.boxes)}
-  // 写入医生端患者列表（触发 storage 事件）
-  const patients=LS.get('XYWX_doctor_patients',[]);
-  if(!patients.find(p=>p.pid===profile.pid)){
-    patients.push({pid:profile.pid,name:nick,age,bmi:bmiNow(),lastRecord:todayStr(),weeksOn:weeksOn(),adherence:92,status:'active'});
-    LS.set('XYWX_doctor_patients',patients);
-  }
-  S.points+=20;LS.set('XYWX_points',S.points);
-  OB={step:0,box:null,doc:null,skipDoc:false,profile:{}};
-  render();toast('建档完成，欢迎使用 🎉<br><span style="font-size:.75rem">健康数据仅本地存储</span>',2600);
+  // 绑定医生时明确授权三项随访数据，后续仍可逐项撤回
+  if(OB.doc){S.share={weight:true,waist:true,med:true};LS.set('XYWX_share_settings',S.share)}
+  seedRecords();syncFollowup();
+  S.points+=20;savePts();
+  OB={step:0,box:null,doc:null,noBox:false,noDoc:false,profile:{}};
+  render();
+  const miss=[!S.boxes.length?'药盒':'',!S.doctor?'医生':''].filter(Boolean).join('、');
+  toast('建档完成，欢迎使用 🎉<br><span style="font-size:.75rem">'+(miss?('尚未绑定'+miss+'，可随时在「服务」内扫码补绑'):'健康数据仅本地存储')+'</span>',3000);
 }
 /* URL 参数联动 */
 (function(){
@@ -579,6 +981,13 @@ function lineChart(cv,{labels,data,unit='',min=null,max=null,marks=[],band=null,
     ctx.fillStyle='#E8833A';ctx.textAlign='left';ctx.fillText('目标 '+goal+unit,pad.l+5,y(goal)-5)}
   marks.forEach(m=>{ctx.strokeStyle='rgba(232,131,58,.8)';ctx.setLineDash([3,3]);
     ctx.beginPath();ctx.moveTo(x(m.i),pad.t);ctx.lineTo(x(m.i),H-pad.b);ctx.stroke();ctx.setLineDash([])});
+  if(!band&&data.length>1){ /* 趋势面积渐变 */
+    ctx.save();ctx.beginPath();
+    data.forEach((v,i)=>i?ctx.lineTo(x(i),y(v)):ctx.moveTo(x(0),y(v)));
+    ctx.lineTo(x(data.length-1),H-pad.b);ctx.lineTo(x(0),H-pad.b);ctx.closePath();
+    const g=ctx.createLinearGradient(0,pad.t,0,H-pad.b);
+    g.addColorStop(0,color+'30');g.addColorStop(1,color+'05');
+    ctx.fillStyle=g;ctx.fill();ctx.restore()}
   ctx.strokeStyle=color;ctx.lineWidth=2;ctx.beginPath();
   data.forEach((v,i)=>i?ctx.lineTo(x(i),y(v)):ctx.moveTo(x(0),y(v)));ctx.stroke();
   ctx.fillStyle=color;data.forEach((v,i)=>{ctx.beginPath();ctx.arc(x(i),y(v),2.4,0,7);ctx.fill()});
@@ -596,13 +1005,12 @@ function viewHome(){
   const lastVisit=LS.get('XYWX_last_visit','2026-10-20');
   const nextVisit=fmt(addDays(new Date(lastVisit),28));
   const daysLeft=Math.max(0,Math.round((new Date(nextVisit)-new Date(today))/864e5));
-  const lastMed=S.meds[S.meds.length-1];
-  const gap=Math.round((new Date(today)-new Date(lastMed.date))/864e5);
   return `
   <div class="row between" style="margin:4px 2px 12px">
     <div><div style="font-size:1.05rem;font-weight:700">你好，${esc(p.nick)} 👋</div><div class="tiny">已陪伴 ${weeksOn()} 周 · 演示数据</div></div>
     <div style="text-align:right"><div class="tiny">当前 BMI</div><b style="color:var(--mint-dark)">${bmiNow()}</b></div>
   </div>
+  ${careNoticeHTML()}
   <div class="card" style="background:linear-gradient(135deg,#2BB5A0,#49CDB6);color:#fff">
     <div class="row between">
       <div><div style="font-size:.8rem;opacity:.85">今日用药</div>
@@ -611,10 +1019,11 @@ function viewHome(){
       <button style="background:rgba(255,255,255,.22);color:#fff;border-radius:12px;padding:12px 18px;font-weight:600" onclick="checkIn()">${checked?'查看记录':'到时间记录'}</button>
     </div>
   </div>
-  ${gap>=2?`<div class="card" style="border:1px solid #F3D9B8;background:#FFF9F0">
-    <div class="row"><span style="font-size:1.4rem">⏰</span><div style="flex:1">
-    <b style="color:var(--warn);font-size:.9rem">断药预警</b>
-    <div class="tiny" style="margin-top:2px">您已 ${gap} 天未记录用药。请留意用药计划，如有疑问建议咨询您的主治医生。</div></div></div></div>`:''}
+  ${!S.boxes.length?`<div class="card" style="border:1px dashed var(--mint)">
+    <div class="row"><span style="font-size:1.4rem">📦</span><div style="flex:1">
+    <b style="font-size:.9rem">尚未绑定药盒</b>
+    <div class="tiny" style="margin-top:2px">扫码补绑药盒，可查看全程溯源与冷链记录</div></div>
+    <button class="btn sm" onclick="pushSub('bindbox')">去补绑</button></div></div>`:''}
   <div class="card">
     <h3><span class="dot"></span>本周体重（kg）<button class="btn sm line" style="float:right" onclick="nav('record')">去记录 ›</button></h3>
     <canvas id="mini-chart" class="chart" style="height:120px"></canvas>
@@ -661,8 +1070,8 @@ function checkIn(){
 function doCheckIn(){
   const today=todayStr();
   S.meds.push({date:today,time:new Date().toTimeString().slice(0,5),note:$('#ci-note').value.trim()});
-  S.points+=5;LS.set('XYWX_points',S.points);saveRecords();closeModal();
-  render();toast('已记录 ✓ 积分 +5<br><span style="font-size:.72rem">积分仅为自我激励，无任何现金或实物回报承诺</span>',2400);
+  saveRecords();closeModal();
+  render();toast('用药已记录 ✓<br><span style="font-size:.72rem">仅用于自我管理与医生随访，不产生积分或实物权益</span>',2400);
   // 同步 30 天徽章进度
 }
 
@@ -672,19 +1081,39 @@ function segHTML(opts,cur,cb){
   const i=Math.max(0,opts.findIndex(o=>o[0]===cur)),w=100/opts.length;
   return `<div class="seg" style="flex:1">${opts.map(o=>`<button class="${cur===o[0]?'on':''}" onclick="${cb}('${o[0]}')">${o[1]}</button>`).join('')}<div class="seg-thumb" style="width:calc(${w}% - 2.5px);transform:translateX(${i*100}%)"></div></div>`;
 }
-function setMetric(m){REC_METRIC=m;render()}
+function setMetric(m){REC_METRIC=m;REC_OFF=0;render()}
+function setMode(m){REC_MODE=m;REC_OFF=0;render()}
+function goalDonut(pct,size=104){
+  const r=size/2-9,c=2*Math.PI*r;
+  return `<svg viewBox="0 0 ${size} ${size}" style="width:${size}px;display:block;margin:0 auto">
+    <circle cx="${size/2}" cy="${size/2}" r="${r}" fill="none" stroke="#E7F0ED" stroke-width="10"/>
+    <circle cx="${size/2}" cy="${size/2}" r="${r}" fill="none" stroke="url(#gd)" stroke-width="10" stroke-linecap="round"
+      stroke-dasharray="${c}" stroke-dashoffset="${c*(1-pct/100)}" transform="rotate(-90 ${size/2} ${size/2})" style="transition:stroke-dashoffset .6s cubic-bezier(.32,.72,.24,1)"/>
+    <defs><linearGradient id="gd" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2BB5A0"/><stop offset="1" stop-color="#5AD6BF"/></linearGradient></defs>
+    <text x="${size/2}" y="${size/2-2}" text-anchor="middle" font-size="19" font-weight="800" fill="#1E9C89">${pct}%</text>
+    <text x="${size/2}" y="${size/2+15}" text-anchor="middle" font-size="9.5" fill="#7A8B87">已达成</text></svg>`;
+}
 function goalCardHTML(metric){
   const n=METRIC_NAME[metric],u=METRIC_UNIT[metric],gi=goalInfo(metric);
   if(!gi)return `<div class="card"><div class="row between"><h3 style="margin:0"><span class="dot"></span>我的${n}目标</h3><span class="tag gray">未设定</span></div>
     <p class="muted" style="margin:10px 0">设定${n}目标后，每天可以看到距离目标还有多远、已达成百分之多少。</p>
     <button class="btn" onclick="openGoal('${metric}')">设定${n}目标</button></div>`;
+  const MS=[25,50,75,100];
   return `<div class="card"><div class="row between"><h3 style="margin:0"><span class="dot"></span>我的${n}目标</h3>
     <button class="btn sm line" onclick="openGoal('${metric}')">修改</button></div>
-    <div class="kv"><span>目标${n}</span><b>${gi.target} ${u}</b></div>
-    <div class="kv"><span>当前${n}（起始 ${gi.start}）</span><b>${gi.now} ${u}</b></div>
-    <div class="goal-bar"><div style="width:${gi.pct}%"></div></div>
-    <div class="progress-note"><span>已达成 ${gi.pct}%</span><span>${gi.done?'已达成目标 🎉':(gi.days?`按当前趋势约 ${gi.days} 天达成`:'趋势积累中…')}</span></div>
-    <p class="tiny" style="margin-top:8px">${gi.done?`已到达目标${n}，建议咨询医生制定下一阶段计划（演示）。`:`距目标还有 ${gi.remain} ${u} · 按最近记录趋势估算（演示数据）`}</p></div>`;
+    <div class="row" style="gap:16px;margin-top:6px">
+      <div style="flex:none">${goalDonut(gi.pct)}</div>
+      <div style="flex:1">
+        <div class="kv"><span>目标${n}</span><b>${gi.target} ${u}</b></div>
+        <div class="kv"><span>当前${n}</span><b>${gi.now} ${u}</b></div>
+        <div class="kv"><span>起始${n}</span><b>${gi.start} ${u}</b></div>
+        <div class="kv"><span>还差</span><b style="color:var(--warn)">${gi.done?0:gi.remain} ${u}</b></div>
+      </div>
+    </div>
+    <div class="ms-row">${MS.map(mp=>{const mv=Math.round((gi.start-(gi.start-gi.target)*mp/100)*10)/10,done=gi.now<=mv;
+      return `<div class="ms-chip ${done?'done':''}">${done?'✓':'○'} ${mp===100?'最终目标':mp+'% 小目标'}<b>${mv}${u}</b></div>`}).join('')}</div>
+    <div class="progress-note" style="margin-top:8px"><span>${gi.done?'已达成最终目标 🎉':`按当前趋势约 ${gi.days||'--'} 天达成`}</span><span>每完成一个小目标都给自己一点鼓励</span></div>
+    <p class="tiny" style="margin-top:6px">${gi.done?'已到达目标'+n+'，建议咨询医生制定下一阶段计划（演示）。':`距目标还有 ${gi.remain} ${u} · 按最近记录趋势估算（演示数据）`}</p></div>`;
 }
 function viewRecord(){
   const giW=goalInfo('weight'),giWa=goalInfo('waist');
@@ -693,44 +1122,57 @@ function viewRecord(){
   ${goalCardHTML(REC_METRIC)}
   <div class="card">
     <div class="row" style="gap:8px">${segHTML([['weight','体重'],['waist','腰围']],REC_METRIC,'setMetric')}
-      <div class="row" style="gap:5px;flex:none">${['day','week','month'].map(m=>`<button class="btn sm ${REC_MODE===m?'':'ghost'}" style="padding:5px 10px;font-size:.72rem" onclick="REC_MODE='${m}';render()">${{day:'日',week:'周',month:'月'}[m]}</button>`).join('')}</div>
+      <div class="row" style="gap:5px;flex:none">${['day','week','month'].map(m=>`<button class="btn sm ${REC_MODE===m?'':'ghost'}" style="padding:5px 10px;font-size:.72rem" onclick="setMode('${m}')">${{day:'日',week:'周',month:'月'}[m]}</button>`).join('')}</div>
     </div>
-    <canvas id="rec-chart" class="chart" style="margin-top:10px"></canvas>
-    <div class="row" style="gap:16px;margin-top:6px">
+    <canvas id="rec-chart" class="chart" style="margin-top:10px;touch-action:pan-y"></canvas>
+    <div class="row between" style="margin-top:6px">
+      <span class="tiny" id="rec-win"></span>
+      <span class="tiny" id="rec-pan-hint" style="color:var(--mint-dark)"></span>
+    </div>
+    <div class="row" style="gap:14px;margin-top:4px">
       <span class="tiny" style="color:${REC_METRIC==='weight'?'#2BB5A0':'#3E7BFA'}">━ ${METRIC_NAME[REC_METRIC]}（${METRIC_UNIT[REC_METRIC]}）</span>
-      <span class="tiny" style="color:var(--warn)">┆ 用药时点</span>
-      ${(REC_METRIC==='weight'?giW:giWa)?'<span class="tiny" style="color:var(--warn)">┅ 目标线</span>':''}
+      <span class="tiny" style="color:var(--warn);display:inline-flex;align-items:center;gap:5px"><svg width="26" height="6" style="display:block"><line x1="0" y1="3" x2="26" y2="3" stroke="rgba(232,131,58,.9)" stroke-width="2" stroke-dasharray="5,3"/></svg>目标线</span>
+      <span class="tiny" style="color:#E8833A">🔻 用药时点（点按查看）</span>
     </div>
-    <div class="tiny" id="rec-tip" style="margin-top:6px;min-height:1.2em">点击曲线数据点可查看详情与备注</div>
+    <div class="tiny" id="rec-tip" style="margin-top:6px;min-height:1.2em">点击曲线数据点查看数值；点橙色倒楔形查看用药详情；数据较多时可左右拖动图表</div>
+    <button id="rec-del" class="btn sm danger hide" style="margin-top:8px;width:auto;padding:7px 16px" onclick="askDelPoint()">🗑 删除该数据点</button>
     <div class="hr"></div>
-    <div class="grid2">
+    <div class="grid3">
       <button class="btn line" onclick="openEntry('weight')">＋ 补录体重</button>
       <button class="btn line" onclick="openEntry('waist')">＋ 补录腰围</button>
+      <button class="btn line" onclick="openMedEntry()">💉 记录用药</button>
     </div>
   </div>
-  ${giW&&giWa?`<div class="card">
-    <h3><span class="dot"></span>今日目标一览</h3>
-    <div class="kv"><span>体重 ${giW.now} kg → ${giW.target} kg</span><b>${giW.done?'已达成 🎉':'已达成 '+giW.pct+'% · 还差 '+giW.remain+' kg'}</b></div>
-    <div class="kv"><span>腰围 ${giWa.now} cm → ${giWa.target} cm</span><b>${giWa.done?'已达成 🎉':'已达成 '+giWa.pct+'% · 还差 '+giWa.remain+' cm'}</b></div>
-  </div>`:''}
   <div class="card">
     <h3><span class="dot"></span>定时提醒设置（模拟）</h3>
-    ${[['medTime','用药记录提醒'],['weightTime','晨起称重提醒'],['waistTime','腰围记录提醒']].map(r=>`
-      <div class="row between" style="padding:8px 0;border-bottom:1px dashed var(--line)">
-        <span style="font-size:.85rem">${r[1]}</span>
-        <input type="time" value="${S.reminders[r[0]]}" style="width:110px;padding:6px 8px" onchange="S.reminders['${r[0]}']=this.value;LS.set('XYWX_reminders',S.reminders);toast('提醒时间已更新（模拟）')">
-      </div>`).join('')}
+    ${[['medTime','用药记录提醒'],['weightTime','晨起称重提醒'],['waistTime','腰围记录提醒']].map(r=>{
+      const rep=(S.reminders.rep||{})[r[0]]||'daily';
+      const days=(S.reminders.days||{})[r[0]]||[1,2,3,4,5,6,0];
+      return `<div style="padding:10px 0;border-bottom:1px dashed var(--line)">
+      <div class="row between"><span style="font-size:.85rem">${r[1]}</span>
+        <div class="row" style="gap:6px">
+          <input type="time" value="${S.reminders[r[0]]}" style="width:104px;padding:6px 8px" onchange="updRem('${r[0]}','time',this.value)">
+          <select onchange="updRem('${r[0]}','rep',this.value)" style="padding:7px 6px;border-radius:9px;border:1px solid var(--line);font-size:.76rem;background:#fff;color:var(--ink)">
+            <option value="daily" ${rep==='daily'?'selected':''}>每天</option>
+            <option value="weekly" ${rep==='weekly'?'selected':''}>每周</option>
+            <option value="custom" ${rep==='custom'?'selected':''}>自定义</option>
+          </select>
+        </div>
+      </div>
+      ${rep==='weekly'?`<p class="tiny" style="margin-top:6px">每周提醒一次（按本周${'日一二三四五六'[new Date().getDay()]}循环，演示）</p>`:''}
+      ${rep==='custom'?`<div class="chip-group" style="margin-top:8px">${['周一','周二','周三','周四','周五','周六','周日'].map((d,i)=>`<button type="button" class="chip ${days.includes(i)?'on':''}" onclick="updRem('${r[0]}','day',${i})">${d}</button>`).join('')}</div>`:''}
+      </div>`}).join('')}
     <div class="row between" style="margin-top:12px">
-      <span class="tiny">开启后将在设定时间弹出模拟提醒</span>
+      <span class="tiny">开启后将在设定的重复周期弹出模拟提醒</span>
       <label class="switch"><input type="checkbox" ${S.reminders.enabled?'checked':''} onchange="toggleRemind(this.checked)"><span class="sl"></span></label>
     </div>
     <p class="tiny" style="margin-top:8px">提醒内容仅为“到时间记录/咨询了”，不涉及任何促销与购买引导。</p>
   </div>
   <div class="card">
-    <h3><span class="dot"></span>30 天连续记录徽章</h3>
-    ${ringSVG(consecutiveDays(),30)}
-    <div class="progress-note"><span>已连续记录 ${consecutiveDays()} 天</span><span>目标 30 天</span></div>
-    <p class="tiny" style="margin-top:8px">徽章与积分仅为自我激励，无任何现金或实物回报承诺。</p>
+    <h3><span class="dot"></span>连续记录徽章（30 / 90 / 180 天）</h3>
+    <div class="grid3">${[30,90,180].map(t=>`<div style="text-align:center">${ringSVG(Math.min(consecutiveDays(),t),t)}<div class="tiny" style="margin-top:4px">${t} 天徽章${consecutiveDays()>=t?' ✓':''}</div></div>`).join('')}</div>
+    <div class="progress-note" style="margin-top:8px"><span>已连续记录 ${consecutiveDays()} 天</span><span>下一档：${consecutiveDays()>=180?'全部达成 🏆':(consecutiveDays()>=90?180:(consecutiveDays()>=30?90:30))+' 天徽章'}</span></div>
+    <p class="tiny" style="margin-top:8px">患者里程碑仅提供无现金价值的自我激励徽章；积分仅来自科普学习、健康记录与平台反馈；购药、处方、药盒绑定、用药记录、续方均不产生积分。</p>
   </div>`;
 }
 function consecutiveDays(){
@@ -770,39 +1212,255 @@ function doEntry(type){
   if(!d||!v){toast('请完整填写');return}
   const rec=S.records.find(r=>r.date===d);
   if(rec){rec[type]=v}else{S.records.push({date:d,[type]:v});S.records.sort((a,b)=>a.date<b.date?-1:1)}
-  S.points+=2;LS.set('XYWX_points',S.points);saveRecords();closeModal();render();
-  toast('已保存（演示数据）<br><span style="font-size:.72rem">健康数据仅本地存储</span>');
+  S.points+=2;savePts();saveRecords();closeModal();render();
+  toast(`已保存（演示数据）<br><span style="font-size:.72rem">健康数据仅本地存储 · 积分 +2（当前 ${S.points} 分，与公众端互通）</span>`);
 }
-function drawRecord(){
+/* 主动记录用药频次 */
+function openMedEntry(){
+  const now=new Date();
+  openModal(`<h3 style="margin-bottom:10px">记录用药频次</h3>
+    <p class="tiny" style="margin-bottom:10px">记录本次按处方用药的时间与感受，仅用于自我管理（演示）。</p>
+    <div class="field"><label>药品名</label><input id="md-drug" value="先维盈" placeholder="按处方填写"></div>
+    <div class="field"><label>用药量</label><input id="md-dose" placeholder="如：0.25 mg（按医嘱）"></div>
+    <div class="field"><label>用药日期</label><input type="date" id="md-date" value="${todayStr()}" max="${todayStr()}"></div>
+    <div class="field"><label>用药时间</label><input type="time" id="md-time" value="${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}"></div>
+    <div class="field"><label>备注（可选）</label><input id="md-note" placeholder="如：正常，无不适 / 部位轮换至左侧"></div>
+    <button class="btn" onclick="doMedEntry()">保存用药记录</button>
+    <button class="btn gray" style="margin-top:8px" onclick="closeModal()">取消</button>`);
+}
+function doMedEntry(){
+  const d=$('#md-date').value,t=$('#md-time').value,note=$('#md-note').value.trim();
+  const drug=$('#md-drug').value.trim(),dose=$('#md-dose').value.trim();
+  if(!d||!t){toast('请选择日期与时间');return}
+  if(S.meds.some(m=>m.date===d)){toast('该日期已有用药记录，可点曲线上的倒楔形标记查看');return}
+  S.meds.push({date:d,time:t,note,drug,dose});S.meds.sort((a,b)=>a.date<b.date?-1:1);
+  saveRecords();closeModal();render();
+  toast('用药已记录 ✓<br><span style="font-size:.72rem">仅用于自我管理与医生随访，不产生积分或实物权益</span>',2400);
+}
+/* ==================== 记录图表引擎（v1.4：最高点上1/5+目标线1/4双锚点 / 倒楔形用药标记 / rAF顺滑拖拽 / 同日去重） ==================== */
+let SEL_POINT=null, REC_OFF=0;
+const REC_WIN_DAYS={day:30,week:56,month:180};   // 日=30天 周=8周 月=6个月 可视窗口
+function dedupeRecords(){   // 同一天仅保留一条记录（体重/腰围合并），消除重复无意义记录点
+  const m={};
+  S.records.forEach(r=>{if(!r||!r.date)return;const k=r.date;
+    if(!m[k])m[k]={date:k};
+    if(r.weight!=null)m[k].weight=r.weight;
+    if(r.waist!=null)m[k].waist=r.waist});
+  S.records=Object.keys(m).sort().map(k=>m[k]);
+}
+function recSeries(){
+  dedupeRecords();
+  const metric=REC_METRIC,pts=[];
+  if(REC_MODE==='day'){
+    S.records.forEach(r=>{if(r[metric]!=null)pts.push({date:r.date,v:r[metric]})});
+  }else if(REC_MODE==='week'){
+    const bk={};
+    S.records.forEach(r=>{if(r[metric]==null)return;
+      const d=new Date(r.date+'T00:00:00'),ws=new Date(d);
+      ws.setDate(d.getDate()-((d.getDay()+6)%7));   // 周一为一周起点
+      const k=fmt(ws);(bk[k]=bk[k]||[]).push(r[metric])});
+    Object.keys(bk).sort().forEach(k=>pts.push({date:k,v:bk[k].reduce((a,b)=>a+b,0)/bk[k].length}));
+  }else{
+    const bk={};
+    S.records.forEach(r=>{if(r[metric]==null)return;const k=r.date.slice(0,7)+'-01';(bk[k]=bk[k]||[]).push(r[metric])});
+    Object.keys(bk).sort().forEach(k=>pts.push({date:k,v:bk[k].reduce((a,b)=>a+b,0)/bk[k].length}));
+  }
+  return pts.sort((a,b)=>a.date<b.date?-1:1);
+}
+function recView(){
+  const pts=recSeries();
+  if(!pts.length)return{pts:[]};
+  const first=pts[0].date,today=todayStr();
+  const span=Math.round((new Date(today)-new Date(first))/864e5);
+  const win=REC_WIN_DAYS[REC_MODE];
+  let start=first,end=today,canPan=false;
+  if(span>win){canPan=true;
+    REC_OFF=Math.max(0,Math.min(REC_OFF,span-win));
+    const e=new Date(today);e.setDate(e.getDate()-REC_OFF);
+    const s=new Date(e);s.setDate(s.getDate()-win);
+    end=fmt(e);start=fmt(s);
+  }else REC_OFF=0;
+  return{pts,first,today,start,end,canPan,win,span};
+}
+function drawRecord(light){
   const cv=$('#rec-chart');if(!cv)return;
   const metric=REC_METRIC,u=METRIC_UNIT[metric],color=metric==='weight'?'#2BB5A0':'#3E7BFA';
-  const has=r=>r[metric]!=null;
-  let labels=[],data=[];
-  if(REC_MODE==='day'){const d=S.records.slice(-7).filter(has);labels=d.map(r=>r.date.slice(5));data=d.map(r=>r[metric])}
-  else if(REC_MODE==='week'){const wk=[...S.records].reverse().filter(has);
-    for(let i=0;i<wk.length;i+=7){const seg=wk.slice(i,i+7);if(!seg.length)continue;labels.unshift('第'+Math.ceil((i+1)/7)+'周');
-      data.unshift(seg.reduce((s,r)=>s+r[metric],0)/seg.length)}}
-  else{const mo={};S.records.filter(has).forEach(r=>{(mo[r.date.slice(0,7)]=mo[r.date.slice(0,7)]||[]).push(r[metric])});
-    Object.keys(mo).sort().forEach(k=>{labels.push(k.slice(2));data.push(mo[k].reduce((a,b)=>a+b,0)/mo[k].length)})}
-  if(!data.length){cv.style.display='none';$('#rec-tip').textContent='暂无'+METRIC_NAME[metric]+'记录，可先补录数据';return}
+  const tip=$('#rec-tip'),del=$('#rec-del'),winEl=$('#rec-win'),hintEl=$('#rec-pan-hint');
+  SEL_POINT=null;if(del)del.classList.add('hide');
+  const V=recView();
+  if(!V.pts.length){cv.style.display='none';if(tip)tip.textContent='暂无'+METRIC_NAME[metric]+'记录，可先补录数据';if(winEl)winEl.textContent='';if(hintEl)hintEl.textContent='';return}
   cv.style.display='block';
-  const marks=data.map((_,i)=>S.meds.some(m=>m.date.endsWith(labels[i])||m.date.slice(5)===labels[i])?{i}:null).filter(Boolean);
+  if(winEl)winEl.textContent=`${V.start} ~ ${V.end}`;
+  if(hintEl)hintEl.textContent=V.canPan?'🖐 左右拖动查看全部记录':'';
+  const dpr=window.devicePixelRatio||1,W=cv.clientWidth||320,H=216;
+  if(!light||cv._w!==W||cv._h!==H){cv.width=W*dpr;cv.height=H*dpr;cv._w=W;cv._h=H;cv.getContext('2d').scale(dpr,dpr)}
+  const ctx=cv.getContext('2d');ctx.clearRect(0,0,W,H);
+  const pad={l:40,r:12,t:32,b:26},pw=W-pad.l-pad.r,ph=H-pad.t-pad.b;
+  const x0=new Date(V.start+'T00:00:00').getTime(),spanMs=Math.max(1,new Date(V.end+'T00:00:00').getTime()-x0);
+  const X=date=>pad.l+pw*((new Date(date+'T00:00:00').getTime()-x0)/spanMs);
+  const vis=V.pts.filter(p=>p.date>=V.start&&p.date<=V.end);
+  if(!vis.length){ctx.fillStyle='#8CA39D';ctx.font='11px sans-serif';ctx.textAlign='center';ctx.fillText('该时间段暂无记录，可拖动查看其他时间',W/2,H/2);cv._pts=[];cv._meds=[];return}
+  /* 纵轴双锚点：最高记录点位于上 1/5，目标线位于下 1/4；整数间距网格 */
   const gi=goalInfo(metric);
-  lineChart(cv,{labels,data:data.map(v=>Math.round(v*10)/10),unit:u,marks,color,goal:gi?gi.target:null});
-  cv.onclick=e=>{
-    const rect=cv.getBoundingClientRect(),pad=36;
-    const x=(e.clientX-rect.left)*(cv.clientWidth/rect.width);
-    const idx=Math.round((x-pad)/((cv.clientWidth-pad-10)/(data.length-1||1)));
-    if(idx<0||idx>=data.length)return;
-    const med=S.meds.find(m=>m.date.slice(5)===labels[idx]||m.date.endsWith(labels[idx]));
-    $('#rec-tip').textContent=`${labels[idx]}：${METRIC_NAME[metric]} ${data[idx]?data[idx].toFixed(1):'--'} ${u}`+(med?` · 用药 ${med.time}${med.note?'（备注：'+med.note+'）':''}`:'');
+  const dMax=Math.max(...vis.map(p=>p.v)),dMin=Math.min(...vis.map(p=>p.v));
+  let lo,hi;
+  if(gi&&dMax>gi.target){
+    let R=(dMax-gi.target)/0.55;                 // dMax→1/5 高度，target→3/4 高度
+    if(R<4)R=4;
+    lo=gi.target-0.25*R;hi=lo+R;
+  }else if(gi){hi=Math.ceil(dMax*1.05);lo=(gi.target-0.25*hi)/0.75}
+  else{hi=Math.ceil(dMax);lo=Math.floor(dMin);if(hi<=lo){hi=lo+2}}
+  if(dMin<lo)lo=Math.floor(dMin);
+  const Y=v=>pad.t+ph*(1-(v-lo)/(hi-lo));
+  const step=[0.5,1,2,5,10,20,50].find(s=>(hi-lo)/s<=6)||100;
+  ctx.font='10px sans-serif';
+  for(let v=Math.ceil(lo/step)*step;v<=hi+1e-9;v+=step){
+    const yy=Y(v);
+    ctx.strokeStyle='#E9F2EF';ctx.lineWidth=1;
+    ctx.beginPath();ctx.moveTo(pad.l,yy);ctx.lineTo(W-pad.r,yy);ctx.stroke();
+    ctx.fillStyle='#8CA39D';ctx.textAlign='right';
+    ctx.fillText(String(Math.round(v*10)/10),pad.l-5,yy+3);
+  }
+  /* 横轴：按日期均匀取 5~7 个刻度 */
+  const dayStep=[1,2,5,7,10,14,30,60,90].find(s=>spanMs/864e5/s<=7)||120;
+  ctx.textAlign='center';ctx.fillStyle='#8CA39D';
+  const tick0=Math.ceil(x0/864e5/dayStep)*dayStep*864e5;
+  for(let t=tick0;t<=x0+spanMs;t+=dayStep*864e5){
+    const d=new Date(t),lab=REC_MODE==='month'?`${d.getMonth()+1}月`:`${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+    const xx=pad.l+pw*((t-x0)/spanMs);
+    ctx.strokeStyle='#DDEAE5';ctx.beginPath();ctx.moveTo(xx,pad.t);ctx.lineTo(xx,H-pad.b);ctx.stroke();
+    if(xx>pad.l+14&&xx<W-pad.r-10)ctx.fillText(lab,xx,H-8);
+  }
+  /* 目标线（下 1/4 基准） */
+  if(gi){
+    const gy=Y(gi.target);
+    ctx.strokeStyle='rgba(232,131,58,.9)';ctx.setLineDash([6,4]);ctx.lineWidth=1.5;
+    ctx.beginPath();ctx.moveTo(pad.l,gy);ctx.lineTo(W-pad.r,gy);ctx.stroke();
+    ctx.setLineDash([]);ctx.lineWidth=1;
+    ctx.fillStyle='#E8833A';ctx.textAlign='left';
+    ctx.fillText(`目标 ${gi.target}${u}`,pad.l+4,gy-5);
+  }
+  /* 记录线（渐变面积 + 折线 + 圆点） */
+  const pts2=vis.map(p=>({x:X(p.date),y:Y(p.v),date:p.date,v:p.v}));
+  if(pts2.length>1){
+    ctx.save();ctx.beginPath();
+    pts2.forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y));
+    ctx.lineTo(pts2[pts2.length-1].x,H-pad.b);ctx.lineTo(pts2[0].x,H-pad.b);ctx.closePath();
+    const g=ctx.createLinearGradient(0,pad.t,0,H-pad.b);
+    g.addColorStop(0,color+'30');g.addColorStop(1,color+'05');
+    ctx.fillStyle=g;ctx.fill();ctx.restore();
+    ctx.strokeStyle=color;ctx.lineWidth=2;ctx.lineJoin='round';ctx.beginPath();
+    pts2.forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y));ctx.stroke();
+  }
+  ctx.lineWidth=1.5;ctx.strokeStyle='#fff';
+  pts2.forEach(p=>{ctx.fillStyle=color;ctx.beginPath();ctx.arc(p.x,p.y,3,0,7);ctx.fill();ctx.stroke()});
+  /* 用药时点标记：简化倒楔形 ▼ 标在折线上方，点按看详情（钳制在画布内保证全部可见可点） */
+  cv._pts=pts2;
+  cv._meds=[];
+  S.meds.filter(m=>m.date>=V.start&&m.date<=V.end).forEach(m=>{
+    const mx=X(m.date);
+    const rec=S.records.find(r=>r.date===m.date);
+    const baseY=rec&&rec[metric]!=null?Y(rec[metric]):pad.t+ph-4;
+    const my=Math.max(pad.t+11,Math.min(baseY-26,pad.t+ph-12));
+    ctx.strokeStyle='rgba(232,131,58,.55)';ctx.setLineDash([2,3]);ctx.lineWidth=1;
+    ctx.beginPath();ctx.moveTo(mx,baseY-6);ctx.lineTo(mx,my+5);ctx.stroke();ctx.setLineDash([]);
+    ctx.fillStyle='#E8833A';ctx.strokeStyle='#fff';ctx.lineWidth=1.2;
+    ctx.beginPath();ctx.moveTo(mx-6,my-8);ctx.lineTo(mx+6,my-8);ctx.lineTo(mx,my+3);ctx.closePath();
+    ctx.fill();ctx.stroke();
+    cv._meds.push({x:mx,y:my-2,r:12,date:m.date});
+  });
+  /* 交互状态挂在 canvas 上，事件只绑定一次；rAF 平滑平移 */
+  cv._win=V.win;cv._pw=pw;cv._wh=[W,H];cv._canPan=V.canPan;
+  bindChartEvents(cv);
+}
+let _panSt=null,_panMoved=false,_rafId=0;
+function bindChartEvents(cv){
+  if(cv._bound)return;cv._bound=true;
+  cv.addEventListener('pointerdown',e=>{_panSt={x:e.clientX,off:REC_OFF};_panMoved=false;
+    if(_rafId){cancelAnimationFrame(_rafId);_rafId=0}});
+  cv.addEventListener('pointermove',e=>{
+    if(!_panSt)return;
+    const dx=e.clientX-_panSt.x;
+    if(Math.abs(dx)>10)_panMoved=true;             // 10px 起步，避免误吞点按
+    if(!_panMoved||!cv._canPan||_rafId)return;
+    const nx=e.clientX;
+    _rafId=requestAnimationFrame(()=>{_rafId=0;
+      if(!_panSt)return;
+      REC_OFF=_panSt.off+(nx-_panSt.x)*(cv._win/cv._pw);
+      drawRecord(true)});                          // 轻量重绘：不重置画布尺寸
+  });
+  const end=e=>{
+    if(!_panSt)return;
+    const moved=_panMoved,st=_panSt;_panSt=null;
+    if(_rafId){cancelAnimationFrame(_rafId);_rafId=0}
+    if(moved){                                    // 松手帧同步落定最终位置（快速拖动也不丢）
+      if(cv._canPan){REC_OFF=st.off+(e.clientX-st.x)*(cv._win/cv._pw);drawRecord(true)}
+      return;}
+    const rect=cv.getBoundingClientRect();
+    const px=(e.clientX-rect.left)*(cv._wh[0]/rect.width);
+    const py=(e.clientY-rect.top)*(cv._wh[1]/rect.height);
+    /* 优先命中用药标记（倒楔形） */
+    const med=(cv._meds||[]).find(m=>Math.hypot(px-m.x,py-m.y)<=(m.r||12));
+    if(med){const md=S.meds.find(x=>x.date===med.date);if(md){showMedDetail(md);return}}
+    /* 其次命中数据点 */
+    let best=null,bd=16;
+    (cv._pts||[]).forEach(p=>{const d=Math.hypot(px-p.x,py-p.y);if(d<bd){bd=d;best=p}});
+    if(best){const m2=REC_METRIC,u2=METRIC_UNIT[m2];
+      SEL_POINT={date:best.date,metric:m2};
+      const tipEl=$('#rec-tip');if(tipEl)tipEl.textContent=`${best.date}：${METRIC_NAME[m2]} ${best.v.toFixed(1)} ${u2}`;
+      const delEl=$('#rec-del');if(delEl)delEl.classList.remove('hide');}
   };
+  cv.addEventListener('pointerup',end);
+  cv.addEventListener('pointercancel',()=>{_panSt=null;if(_rafId){cancelAnimationFrame(_rafId);_rafId=0}});
+}
+/* 用药详情（点按 💉 图标）：药品名/用药日期/用药量/备注（无则不显示） */
+function showMedDetail(m){
+  openModal(`<h3 style="margin-bottom:10px">💉 用药记录</h3>
+    <div class="kv"><span>药品名</span><b>${esc(m.drug||'按处方用药（演示）')}</b></div>
+    <div class="kv"><span>用药日期</span><b>${m.date} ${m.time||''}</b></div>
+    ${m.dose?`<div class="kv"><span>用药量</span><b>${esc(m.dose)}</b></div>`:''}
+    ${m.note?`<div class="kv"><span>备注</span><b>${esc(m.note)}</b></div>`:''}
+    <p class="tiny" style="margin:10px 0 12px">仅为自我记录，不构成用药建议；用药请遵医嘱。</p>
+    <button class="btn" onclick="closeModal()">关闭</button>`);
+}
+/* 定时提醒：重复周期设置（每天/每周/自定义周一~周日） */
+function updRem(key,kind,val){
+  S.reminders.rep=S.reminders.rep||{};
+  S.reminders.days=S.reminders.days||{};
+  if(kind==='time'){S.reminders[key]=val}
+  else if(kind==='rep'){S.reminders.rep[key]=val;
+    if(val==='weekly')S.reminders.days[key]=[new Date().getDay()];
+    if(val==='custom'&&!(S.reminders.days[key]||[]).length)S.reminders.days[key]=[1,2,3,4,5];
+  }
+  else if(kind==='day'){const arr=S.reminders.days[key]||[];
+    const i=arr.indexOf(val);
+    if(i>=0){if(arr.length>1)arr.splice(i,1);else{toast('至少保留一天');return}}
+    else arr.push(val);
+    S.reminders.days[key]=arr;}
+  LS.set('XYWX_reminders',S.reminders);render();
+  toast('提醒设置已更新（模拟）');
+}
+/* 图点删除（仅日视图，按完整日期精确删除） */
+function askDelPoint(){
+  if(!SEL_POINT){toast('请先点击曲线上的数据点');return}
+  if(REC_MODE!=='day'){toast('请切换到「日」视图后点击要删除的单日数据点');return}
+  openModal(`<h3 style="margin-bottom:10px">删除这条数据？</h3>
+    <p class="tiny" style="margin-bottom:14px">将删除 ${SEL_POINT.date} 的${METRIC_NAME[SEL_POINT.metric]}记录（仅本机数据，不可恢复）。</p>
+    <button class="btn danger" onclick="delPoint()">确认删除</button>
+    <button class="btn gray" style="margin-top:8px" onclick="closeModal()">取消</button>`);
+}
+function delPoint(){
+  const {date,metric}=SEL_POINT;
+  const rec=S.records.find(r=>r.date===date);
+  if(rec){rec[metric]=null;if(rec.weight==null&&rec.waist==null)S.records=S.records.filter(r=>r!==rec)}
+  saveRecords();closeModal();SEL_POINT=null;render();toast('该数据点已删除（仅本地）');
 }
 
 /* ==================== 服务 Tab（8 宫格） ==================== */
 function viewService(){
   const svcs=[['trace','📦','溯源中心'],['guide','💉','用药指导'],['pap','🤝','援助与商保'],['finddrug','📍','精准找药'],
-              ['solution','🥗','个性化方案'],['doctor','🩺','我的医生'],['science','📚','科普与活动'],['share','🔐','数据共享'],['privacy','🛡️','隐私中心']];
+              ['solution','🥗','个性化方案'],['doctor','🩺','我的医生'],['science','📚','科普与活动'],['mall','🎁','积分商城'],
+              ['orders','🧾','购药记录'],['feedback','💬','问题反馈'],['share','🔐','数据共享'],['privacy','🛡️','隐私中心']];
   return `<div class="page-title">服务中心</div>
   <div class="card" style="padding:14px"><div class="svc-grid">
     ${svcs.map(s=>`<button onclick="pushSub('${s[0]}')"><span class="ico">${s[1]}</span>${s[2]}</button>`).join('')}
@@ -821,75 +1479,391 @@ function viewService(){
 
 /* ==================== 子页面 ==================== */
 function currentBox(){return boxByCode(S._curBox)||S.boxes[0]}
-/* ==================== 精准找药（地图版） ==================== */
-const FIND_STORES=[
-{n:'康宁大药房张江店',short:'康宁·张江',km:0.8,inStock:true,ph:'执业药师 周敏（药理学硕士）',tel:'021-58XX-1101'},
-{n:'益丰大药房徐汇店',short:'益丰·徐汇',km:1.6,inStock:true,ph:'执业药师 郑凯（主管药师）',tel:'021-54XX-2202'},
-{n:'老百姓大药房滨江店',short:'老百姓·滨江',km:3.2,inStock:false,ph:'执业药师 陈露',tel:'021-60XX-3303'},
-{n:'海王星辰药店静安店',short:'海王星辰·静安',km:5.5,inStock:true,ph:'执业药师 王磊（副主任药师）',tel:'021-62XX-4404'},
-{n:'国大药房虹桥店',short:'国大·虹桥',km:7.4,inStock:true,ph:'执业药师 刘芳',tel:'021-52XX-5505'},
-{n:'和平大药房五角场店',short:'和平·五角场',km:9.1,inStock:false,ph:'执业药师 赵鹏',tel:'021-65XX-6606'}];
-function setDist(t){LS.set('XYWX_find_dist',t);render()}
-function pinTap(i){
-const s=FIND_STORES[i];
-toast(s.n+'<br><span style="font-size:.72rem">'+(s.inStock?'先维盈：有货':'先维盈：缺货')+' · '+s.ph+'<br>☎️ '+s.tel+'（演示）</span>',2600);
-const card=$('#store-'+i);
-if(card){card.scrollIntoView({behavior:'smooth',block:'center'});
-  card.style.boxShadow='0 0 0 2px var(--mint)';setTimeout(()=>card.style.boxShadow='',1600)}
+/* ==================== 精准找药 · 附近药房地图（自公众端 qingying.html v3.0 原样移植，2026-11-07） ==================== */
+/* ---------- 预置数据：真实药店（定位：上海中信泰富广场，辉瑞上海总部所在地） ---------- */
+/* 坐标为 GCJ-02（与高德瓦片一致）：名称/地址/电话经上海医保局定点公示、药监局 GSP 公示、区政府、
+   连锁药房官网及高德地图 POI 数据多源交叉核实（2026-11-07）；库存为演示标注 */
+const MAP_CENTER = {lon:121.455193, lat:31.227540, label:'中信泰富广场（辉瑞上海总部所在地）'};
+const PHARMACIES = [
+ /* —— 1km 内 · 5 家 —— */
+ {id:1, name:'华氏大药房（上海商城店）', addr:'静安区南京西路1376号上海商城', tel:'以门店公示为准', lon:121.451293, lat:31.226453, stock:true,  pharmacist:'执业药师在岗'},
+ {id:2, name:'雷允上（南京西路店）', addr:'静安区南京西路870-876号', tel:'021-62179335', lon:121.460315, lat:31.229659, stock:true,  pharmacist:'执业药师在岗'},
+ {id:3, name:'雷允上（静安店）', addr:'静安区江宁路332号', tel:'021-62583074', lon:121.453078, lat:31.232619, stock:true,  pharmacist:'执业药师在岗'},
+ {id:4, name:'雷允上（江宁店）', addr:'静安区新闸路921-1号', tel:'以门店公示为准', lon:121.457592, lat:31.234472, stock:false, pharmacist:'执业药师在岗'},
+ {id:5, name:'益丰大药房（武定路店）', addr:'静安区武定南路300号1层', tel:'以门店公示为准', lon:121.455669, lat:31.235473, stock:true,  pharmacist:'执业药师在岗'},
+ /* —— 1–2km · 6 家 —— */
+ {id:6, name:'国大药房（南京西路店）', addr:'静安区南京西路555号1层', tel:'以门店公示为准', lon:121.465091, lat:31.231596, stock:true,  pharmacist:'执业药师在岗'},
+ {id:7, name:'雷允上药房（药城店）', addr:'静安区华山路2号', tel:'以门店公示为准', lon:121.445601, lat:31.222551, stock:false, pharmacist:'执业药师在岗'},
+ {id:8, name:'华氏大药房（南京西路分店）', addr:'静安区南京西路616-620号', tel:'021-52868153', lon:121.466132, lat:31.230079, stock:true,  pharmacist:'执业药师在岗'},
+ {id:9, name:'华氏大药房（静安店）', addr:'静安区愚园路232号', tel:'以门店公示为准', lon:121.444788, lat:31.222464, stock:true,  pharmacist:'执业药师在岗'},
+ {id:10,name:'第一医药（武定路店）', addr:'静安区武定路1106-1号', tel:'021-32170069', lon:121.439022, lat:31.228857, stock:false, pharmacist:'执业药师在岗'},
+ {id:11,name:'海王星辰（镇宁路店）', addr:'长宁区镇宁路420号', tel:'以门店公示为准', lon:121.436572, lat:31.221523, stock:true,  pharmacist:'执业药师在岗'},
+ /* —— 2–4km · 6 家 —— */
+ {id:12,name:'国大药房（山西北路店）', addr:'静安区山西北路208号1层', tel:'以门店公示为准', lon:121.480759, lat:31.243406, stock:true,  pharmacist:'执业药师在岗'},
+ {id:13,name:'华氏大药房（北区总店）', addr:'静安区芷江西路455-457号', tel:'021-56555609', lon:121.457282, lat:31.256940, stock:false, pharmacist:'执业药师在岗'},
+ {id:14,name:'益丰大药房（中山北路二店）', addr:'普陀区中山北路2139弄22号', tel:'021-32523962', lon:121.429097, lat:31.247372, stock:true,  pharmacist:'执业药师在岗'},
+ {id:15,name:'老百姓大药房（定西路店）', addr:'长宁区定西路1241号', tel:'以门店公示为准', lon:121.421985, lat:31.215260, stock:true,  pharmacist:'执业药师在岗'},
+ {id:16,name:'老百姓大药房（芷江西路店）', addr:'静安区芷江西路243号', tel:'以门店公示为准', lon:121.463185, lat:31.258345, stock:false, pharmacist:'执业药师在岗'},
+ {id:17,name:'老百姓大药房（普善路店）', addr:'静安区普善路350号102室', tel:'021-56902986', lon:121.454536, lat:31.259559, stock:true,  pharmacist:'执业药师在岗'},
+ /* —— 4–8km · 8 家 —— */
+ {id:18,name:'国大药房（保屯店）', addr:'黄浦区保屯路133号底层', tel:'以门店公示为准', lon:121.490939, lat:31.205504, stock:true,  pharmacist:'执业药师在岗'},
+ {id:19,name:'国大药房（西藏南店）', addr:'黄浦区南车站路470号', tel:'以门店公示为准', lon:121.494372, lat:31.205905, stock:false, pharmacist:'执业药师在岗'},
+ {id:20,name:'益丰大药房（枣阳路店）', addr:'普陀区枣阳路181号', tel:'021-32035725', lon:121.404200, lat:31.235014, stock:true,  pharmacist:'执业药师在岗'},
+ {id:21,name:'华氏大药房（延康药店）', addr:'静安区延长路231号', tel:'以门店公示为准', lon:121.456504, lat:31.272904, stock:true,  pharmacist:'执业药师在岗'},
+ {id:22,name:'益丰大药房（西乡路店）', addr:'普陀区西乡路31-33号北首', tel:'以门店公示为准', lon:121.425787, lat:31.265893, stock:false, pharmacist:'执业药师在岗'},
+ {id:23,name:'海王星辰（祥德店）', addr:'虹口区祥德路105号', tel:'以门店公示为准', lon:121.486336, lat:31.270271, stock:true,  pharmacist:'执业药师在岗'},
+ {id:24,name:'海王星辰（临潼店）', addr:'虹口区保定路44号', tel:'以门店公示为准', lon:121.512669, lat:31.254433, stock:false, pharmacist:'执业药师在岗'},
+ {id:25,name:'益丰大药房（梅川路店）', addr:'普陀区梅川路1103-2号', tel:'021-52809651', lon:121.388983, lat:31.241149, stock:true,  pharmacist:'执业药师在岗'},
+];
+function havKm(lon1,lat1,lon2,lat2){
+  const R=6371, dLa=(lat2-lat1)*Math.PI/180, dLo=(lon2-lon1)*Math.PI/180;
+  const a=Math.sin(dLa/2)**2 + Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLo/2)**2;
+  return 2*R*Math.asin(Math.sqrt(a));
 }
-function drugMapSVG(dist){
-const C={x:170,y:118},SCL=12.5,tiers=[1,2,4,8];
-const ang=[-50,25,95,168,225,305];
-const streets=[[0,60,340,52],[0,150,340,158],[70,0,62,230],[250,0,258,230],[140,0,132,230]];
-const blocks=[[20,75,52,40],[95,68,60,46],[200,70,70,44],[285,80,45,38],[30,168,60,42],[110,172,55,40],[210,170,75,44],[292,170,40,42]];
-const pins=FIND_STORES.map((s,i)=>{
-  const a=ang[i]*Math.PI/180,x=C.x+Math.cos(a)*s.km*SCL,y=C.y+Math.sin(a)*s.km*SCL;
-  const inR=s.km<=dist,col=s.inStock?'#2BB5A0':'#D9534F';
-  return `<g class="map-pin" style="cursor:pointer;opacity:${inR?1:.35}" onclick="pinTap(${i})">
-    <circle cx="${x}" cy="${y-4}" r="7" fill="${col}" stroke="#fff" stroke-width="1.5"/>
-    <circle cx="${x}" cy="${y-4}" r="2.4" fill="#fff"/>
-    <text x="${x}" y="${y+12}" text-anchor="middle" font-size="8.5" fill="#41534E">${s.short} ${s.km}km</text></g>`}).join('');
-return `<svg viewBox="0 0 340 230" style="width:100%;display:block;border-radius:12px">
-  <rect width="340" height="230" fill="#EAF5F1"/>
-  <path d="M0,108 Q85,88 170,112 T340,96 L340,128 Q255,146 170,124 T0,136 Z" fill="#CFE9F6"/>
-  ${blocks.map(b=>`<rect x="${b[0]}" y="${b[1]}" width="${b[2]}" height="${b[3]}" rx="6" fill="#DFEEE8"/>`).join('')}
-  ${streets.map(s=>`<line x1="${s[0]}" y1="${s[1]}" x2="${s[2]}" y2="${s[3]}" stroke="#fff" stroke-width="7" stroke-linecap="round"/>`).join('')}
-  ${tiers.map(t=>`<circle cx="${C.x}" cy="${C.y}" r="${t*SCL}" fill="none" stroke="#2BB5A0" stroke-width="${t===dist?2.2:1}" stroke-dasharray="${t===dist?'none':'4,4'}" opacity="${t===dist?.55:.18}"/>
-    <text x="${C.x}" y="${C.y-t*SCL-3}" text-anchor="middle" font-size="8.5" fill="#1E9C89" opacity="${t===dist?1:.5}">${t}km</text>`).join('')}
-  ${pins}
-  <circle cx="${C.x}" cy="${C.y}" r="9" fill="rgba(43,181,160,.25)"><animate attributeName="r" values="7;13;7" dur="2s" repeatCount="indefinite"/></circle>
-  <circle cx="${C.x}" cy="${C.y}" r="5.5" fill="#2BB5A0" stroke="#fff" stroke-width="2.5"/>
-  <text x="${C.x}" y="${C.y+22}" text-anchor="middle" font-size="9" fill="#1E9C89" font-weight="700">我的位置</text>
-</svg>`;
+PHARMACIES.forEach(p => { p.km = havKm(MAP_CENTER.lon, MAP_CENTER.lat, p.lon, p.lat); });
+
+/* ---------- 地图：WGS84→GCJ-02 转换（对齐高德瓦片）、瓦片源、地标 ---------- */
+const GCJ_A = 6378245.0, GCJ_EE = 0.00669342162296594323;
+function gcjTransLat(x, y){
+  let ret = -100.0 + 2.0*x + 3.0*y + 0.2*y*y + 0.1*x*y + 0.2*Math.sqrt(Math.abs(x));
+  ret += (20.0*Math.sin(6.0*x*Math.PI) + 20.0*Math.sin(2.0*x*Math.PI)) * 2.0/3.0;
+  ret += (20.0*Math.sin(y*Math.PI) + 40.0*Math.sin(y/3.0*Math.PI)) * 2.0/3.0;
+  ret += (160.0*Math.sin(y/12.0*Math.PI) + 320.0*Math.sin(y*Math.PI/30.0)) * 2.0/3.0;
+  return ret;
+}
+function gcjTransLon(x, y){
+  let ret = 300.0 + x + 2.0*y + 0.1*x*x + 0.1*x*y + 0.1*Math.sqrt(Math.abs(x));
+  ret += (20.0*Math.sin(6.0*x*Math.PI) + 20.0*Math.sin(2.0*x*Math.PI)) * 2.0/3.0;
+  ret += (20.0*Math.sin(x*Math.PI) + 40.0*Math.sin(x/3.0*Math.PI)) * 2.0/3.0;
+  ret += (150.0*Math.sin(x/12.0*Math.PI) + 300.0*Math.sin(x/30.0*Math.PI)) * 2.0/3.0;
+  return ret;
+}
+function wgs2gcj(lon, lat){
+  const dLat = gcjTransLat(lon-105.0, lat-35.0);
+  const dLon = gcjTransLon(lon-105.0, lat-35.0);
+  const radLat = lat/180.0*Math.PI;
+  let magic = Math.sin(radLat); magic = 1 - GCJ_EE*magic*magic;
+  const sqrtMagic = Math.sqrt(magic);
+  return {
+    lon: lon + (dLon*180.0)/(GCJ_A/sqrtMagic*Math.cos(radLat)*Math.PI),
+    lat: lat + (dLat*180.0)/((GCJ_A*(1-GCJ_EE))/(magic*sqrtMagic)*Math.PI)
+  };
+}
+/* 瓦片源：优先高德（国内可达、中文街道与 POI 标注），失败回退 OSM */
+const TILE_SOURCES = [
+  (z,x,y) => 'https://webst0'+((x+y)%4+1)+'.is.autonavi.com/appmaptile?style=7&x='+x+'&y='+y+'&z='+z,
+  (z,x,y) => 'https://wprd0'+((x+y)%4+1)+'.is.autonavi.com/appmaptile?style=7&x='+x+'&y='+y+'&z='+z,
+  (z,x,y) => 'https://tile.openstreetmap.org/'+z+'/'+x+'/'+y+'.png',
+];
+const KM_ZOOM = {1:15, 2:14, 4:13, 8:12};   // 公里数越小放大倍数越高、街道/建筑细节越精细
+/* 合规要求：地图仅标注药房，不再显示非药房地标 */
+const LANDMARKS = [];
+let curKm = 2;
+let panX = 0, panY = 0;   // 拖拽平移偏移（像素）
+function setKm(km){
+  curKm = km;
+  panX = 0; panY = 0; updatePanBtn();
+  document.querySelectorAll('#dist-tabs button').forEach(b=>
+    b.classList.toggle('on', +b.dataset.km === km));
+  renderMap(); renderPhList();
+}
+/* Web 墨卡托投影：经纬度 → 世界像素 */
+function lonLatToPx(lon, lat, z){
+  const n = Math.pow(2, z) * 256;
+  const x = (lon + 180) / 360 * n;
+  const la = lat * Math.PI / 180;
+  const y = (1 - Math.log(Math.tan(la) + 1/Math.cos(la)) / Math.PI) / 2 * n;
+  return {x, y};
+}
+function renderMap(){
+  const map = document.getElementById('osm-map');
+  const svg = document.getElementById('map-svg');
+  const z = KM_ZOOM[curKm] || 15;
+  const W = map.clientWidth || 340, H = 300;
+  const gC = {lon:MAP_CENTER.lon, lat:MAP_CENTER.lat};   // 数据已是 GCJ-02，与高德瓦片一致
+  const c = lonLatToPx(gC.lon, gC.lat, z);
+  const ox = c.x - W/2 - panX, oy = c.y - H/2 - panY;
+  const tx0 = Math.floor(ox/256), ty0 = Math.floor(oy/256);
+  const cols = Math.ceil(W/256)+1, rows = Math.ceil(H/256)+1;
+  let html = '';
+  for(let r=0; r<rows; r++){
+    for(let q=0; q<cols; q++){
+      const tx = tx0+q, ty = ty0+r;
+      html += `<img class="tile" data-tile data-src="0" data-z="${z}" data-x="${tx}" data-y="${ty}"
+        src="${TILE_SOURCES[0](z,tx,ty)}" style="left:${tx*256-ox}px;top:${ty*256-oy}px" alt=""
+        onerror="tileError(this)">`;
+    }
+  }
+  // 药店定位图钉（点击弹出详情）；留大边距，拖入视野内即可见
+  PHARMACIES.filter(p=>p.km<=curKm).forEach(p=>{
+    const m = lonLatToPx(p.lon, p.lat, z);
+    const left = m.x-ox, top = m.y-oy;
+    if(left<-300||left>W+300||top<-260||top>H+260) return;
+    html += `<div class="mk" id="mk-${p.id}" style="left:${left}px;top:${top}px" onclick="showPhDetail(${p.id},${left},${top})">
+      <svg viewBox="0 0 24 24" width="34" height="34" style="filter:drop-shadow(0 2px 3px rgba(0,0,0,.45))"><path d="M12 1.8C7.9 1.8 4.6 5.1 4.6 9.2c0 5.4 7.4 13.4 7.4 13.4s7.4-8 7.4-13.4C19.4 5.1 16.1 1.8 12 1.8z" fill="#2BB5A0" stroke="#fff" stroke-width="1.6"/><circle cx="12" cy="9.2" r="3.4" fill="#fff"/></svg></div>`;
+  });
+  // 地标建筑标注
+  LANDMARKS.forEach(l=>{
+    if(havKm(MAP_CENTER.lon, MAP_CENTER.lat, l.lon, l.lat) > curKm*1.15 + 0.3) return;
+    const g = wgs2gcj(l.lon, l.lat);
+    const m = lonLatToPx(g.lon, g.lat, z);
+    const left = m.x-ox, top = m.y-oy;
+    if(left<-40||left>W+40||top<-20||top>H+10) return;
+    html += `<div class="lm" style="left:${left}px;top:${top}px">▲ ${l.n}</div>`;
+  });
+  // 我的定位点（随地图拖动，始终在真实地理位置上）
+  html += `<div class="me-dot" style="left:${W/2+panX}px;top:${H/2+panY}px"></div>`;
+  const layer = document.getElementById('map-layer');
+  layer.querySelectorAll('[data-tile],.mk,.lm,.me-dot').forEach(el=>el.remove());
+  layer.insertAdjacentHTML('beforeend', html);
+  map.querySelector('.osm-attrib')?.remove();
+  map.insertAdjacentHTML('beforeend', `<div class="osm-attrib">地图数据 © 高德地图 · 缩放 z${z}（约 ${curKm} km）</div>`);
+  svg.style.display = 'none';
+  updatePanBtn();
+  // 全部瓦片源均失败 → 精细街道示意图兜底
+  setTimeout(()=>{
+    const tiles = map.querySelectorAll('img[data-tile]');
+    let dead = 0; tiles.forEach(t=>{ if(t.dataset.dead === '1') dead++; });
+    if(tiles.length && dead >= tiles.length){
+      map.querySelectorAll('.mk,.lm,.me-dot,.osm-attrib,.ph-pop,img[data-tile]').forEach(el=>el.remove());
+      schematicFallback(svg);
+    }
+  }, 4000);
+}
+/* 拖拽平移：拖动过程中只平移图层，松手后重绘瓦片 */
+function updatePanBtn(){
+  const b = document.getElementById('pan-reset'); if(!b) return;
+  b.style.display = (panX || panY) ? 'block' : 'none';
+}
+function resetPan(){ panX = 0; panY = 0; renderMap(); updatePanBtn(); }
+let mapDragBound = false;
+function bindMapDrag(){
+  if(mapDragBound) return; mapDragBound = true;
+  const map = document.getElementById('osm-map');
+  const layer = document.getElementById('map-layer');
+  let sx=0, sy=0, dx=0, dy=0, active=false, moved=false;
+  map.addEventListener('pointerdown', e=>{
+    if(e.target.closest('.ph-pop,#pan-reset')) return;
+    active = true; moved = false; sx = e.clientX; sy = e.clientY;
+    /* 注意：此处不能 setPointerCapture，否则图钉上的 click 会被劫持到地图容器 */
+  });
+  map.addEventListener('pointermove', e=>{
+    if(!active) return;
+    dx = e.clientX - sx; dy = e.clientY - sy;
+    if(Math.abs(dx) + Math.abs(dy) > 8 && !moved){
+      moved = true;
+      try{ map.setPointerCapture(e.pointerId); }catch(err){}
+    }
+    if(moved) layer.style.transform = 'translate('+dx+'px,'+dy+'px)';
+  });
+  const end = ()=>{
+    if(!active) return;
+    active = false;
+    if(!moved){ dx = dy = 0; return; }
+    map.dataset.dragMoved = '1';           // 标记本次手势为拖动，抑制点击关闭
+    setTimeout(()=>{ map.dataset.dragMoved = '0'; }, 350);
+    panX += dx; panY += dy; dx = dy = 0;
+    const z = KM_ZOOM[curKm] || 15;
+    const mpp = 156543.03392 * Math.cos(MAP_CENTER.lat*Math.PI/180) / Math.pow(2, z);
+    const maxPx = Math.max(curKm * 1000 / mpp * 1.2, 220);
+    panX = Math.max(-maxPx, Math.min(maxPx, panX));
+    panY = Math.max(-maxPx, Math.min(maxPx, panY));
+    layer.style.transform = '';
+    renderMap();
+  };
+  map.addEventListener('pointerup', end);
+  map.addEventListener('pointercancel', end);
+}
+/* 单个瓦片逐级回退瓦片源 */
+function tileError(el){
+  const i = +el.dataset.src + 1;
+  if(i < TILE_SOURCES.length){
+    el.dataset.src = i;
+    el.src = TILE_SOURCES[i](+el.dataset.z, +el.dataset.x, +el.dataset.y);
+  }else{
+    el.dataset.dead = '1';
+    el.style.display = 'none';
+  }
+}
+/* 兜底：带真实街道名 / 地标 / 药店的精细示意图 */
+function schematicFallback(svg){
+  const W = 492, H = 300, cx = W/2, cy = H/2;
+  const pxPerKm = 115 / curKm * (curKm >= 4 ? 1.15 : 1);   // 让公里圈占画面主体
+  const px = (lon, lat) => {
+    const dxKm = (lon - MAP_CENTER.lon) * 94.9, dyKm = (lat - MAP_CENTER.lat) * 111.0;
+    return [cx + dxKm*pxPerKm, cy - dyKm*pxPerKm];
+  };
+  let s = `<rect width="${W}" height="${H}" fill="#F4F6F5"/>`;
+  // 街区底色
+  for(let i=-2;i<8;i++)for(let j=-2;j<6;j++){
+    if((i+j)%2===0) s += `<rect x="${i*70}" y="${j*70}" width="66" height="66" fill="#EDF2F0"/>`;
+  }
+  // 街道（东西向）
+  const streetsH = [
+    {lat:31.23520, n:'北京西路', w:7},
+    {lat:31.23009, n:'南京西路', w:9},
+    {lat:31.22700, n:'威海路', w:6},
+    {lat:31.22210, n:'延安中路', w:8},
+  ];
+  streetsH.forEach(st=>{
+    const [,y] = px(MAP_CENTER.lon, st.lat);
+    if(y<-10||y>H+10) return;
+    s += `<line x1="0" y1="${y}" x2="${W}" y2="${y}" stroke="#FFFFFF" stroke-width="${st.w}"/>
+      <line x1="0" y1="${y}" x2="${W}" y2="${y}" stroke="#D8DEDA" stroke-width="1"/>
+      <text x="6" y="${y-4}" font-size="10" fill="#7A8A85">${st.n}</text>`;
+  });
+  // 街道（南北向）
+  const streetsV = [
+    {lon:121.44260, n:'常德路', w:5},
+    {lon:121.44720, n:'西康路', w:6},
+    {lon:121.45131, n:'江宁路', w:8},
+    {lon:121.45490, n:'陕西北路', w:7},
+    {lon:121.45871, n:'石门一路', w:6},
+  ];
+  streetsV.forEach(st=>{
+    const [x] = px(st.lon, MAP_CENTER.lat);
+    if(x<-10||x>W+10) return;
+    s += `<line x1="${x}" y1="0" x2="${x}" y2="${H}" stroke="#FFFFFF" stroke-width="${st.w}"/>
+      <line x1="${x}" y1="0" x2="${x}" y2="${H}" stroke="#D8DEDA" stroke-width="1"/>
+      <text x="${x+3}" y="${H-6}" font-size="10" fill="#7A8A85">${st.n}</text>`;
+  });
+  // 公里圈
+  s += `<circle cx="${cx}" cy="${cy}" r="${pxPerKm*curKm}" fill="rgba(43,184,154,.07)"
+    stroke="#2BB5A0" stroke-width="1.4" stroke-dasharray="5 5"/>`;
+  // 地标
+  LANDMARKS.forEach(l=>{
+    const [x,y] = px(l.lon, l.lat);
+    if(x<20||x>W-20||y<14||y>H-14) return;
+    if(havKm(MAP_CENTER.lon, MAP_CENTER.lat, l.lon, l.lat) > curKm*1.2 + 0.4) return;
+    s += `<rect x="${x-4}" y="${y-4}" width="8" height="8" fill="#C9B458"/>
+      <text x="${x+7}" y="${y+4}" font-size="10" fill="#6B5D1F">${l.n}</text>`;
+  });
+  // 药店
+  PHARMACIES.filter(p=>p.km<=curKm).forEach(p=>{
+    const [x,y] = px(p.lon, p.lat);
+    if(x<10||x>W-10||y<10||y>H-10) return;
+    s += `<circle class="mk-svg" cx="${x}" cy="${y}" r="6" fill="${p.stock?'#2BB5A0':'#D9534F'}" stroke="#fff" stroke-width="2" style="cursor:pointer" onclick="showPhDetail('${p.id}',${x},${y},1)">
+      <title>${p.name}</title></circle>`;
+  });
+  // 中心点
+  s += `<circle cx="${cx}" cy="${cy}" r="8" fill="#1E9C82" stroke="#fff" stroke-width="3"/>
+    <text x="${cx}" y="${cy+22}" font-size="11" text-anchor="middle" fill="#1E9C82">中信泰富广场（辉瑞上海总部）</text>
+    <text x="${W-4}" y="${H-6}" font-size="9" text-anchor="end" fill="#9AA8A3">街道示意图（离线兜底）· 约 ${curKm} km</text>`;
+  svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+  svg.innerHTML = s;
+  svg.style.display = 'block';
+}
+function renderPhList(){
+  const list = PHARMACIES.filter(p=>p.km<=curKm).sort((a,b)=>a.km-b.km);
+  document.getElementById('ph-list').innerHTML = list.map(p=>
+    `<div class="card ph-item">
+      <div class="row1"><span class="nm">${p.name}</span>
+        <span class="stock ${p.stock?'yes':'no'}">GLP-1 类药品：${p.stock?'有货':'缺货'}</span></div>
+      <div class="addr">📍 ${p.addr} · 距您约 ${p.km.toFixed(1)} km<br>👨‍⚕️ ${p.pharmacist}（电话与库存为演示标注）</div>
+      <div class="tel">📞 ${/^0\d{2}-?/.test(p.tel)
+        ? `<a href="tel:${p.tel}" style="color:var(--mint-dark);text-decoration:none">${p.tel}</a>`
+        : p.tel}（处方药须凭执业医师处方购买，到店前请电话咨询确认）</div>
+    </div>`).join('')
+    || '<div class="card"><p class="muted" style="text-align:center">该范围内暂无药店</p></div>';
+}
+function focusPh(id){ showPhDetail(id); }
+/* 点击定位图钉 → 在地图上弹出药店详情 */
+function showPhDetail(id, x, y, vb){
+  const map = document.getElementById('osm-map');
+  const p = PHARMACIES.find(v=>v.id===id); if(!p || !map) return;
+  if(vb){ const s=(map.clientWidth||340)/492; x=x*s; y=y*(map.clientHeight||300)/300; }
+  map.querySelectorAll('.ph-pop').forEach(el=>el.remove());
+  map.querySelectorAll('.mk.sel').forEach(el=>el.classList.remove('sel'));
+  const W = map.clientWidth || 340, H = 300;
+  if(x == null || y == null){
+    const z = KM_ZOOM[curKm] || 15;
+    const c = lonLatToPx(MAP_CENTER.lon, MAP_CENTER.lat, z);
+    const m = lonLatToPx(p.lon, p.lat, z);
+    x = m.x - c.x + W/2 + panX; y = m.y - c.y + H/2 + panY;
+  }
+  const left = Math.max(124, Math.min(W-124, x));
+  const mk = document.getElementById('mk-'+id);
+  if(mk) mk.classList.add('sel');
+  const telHtml = /^0\d{2}-?/.test(p.tel)
+    ? `<a href="tel:${p.tel}" style="color:var(--mint-dark);text-decoration:none">${p.tel}</a>`
+    : p.tel;
+  map.insertAdjacentHTML('beforeend', `<div class="ph-pop" style="left:${left}px;top:${Math.round(y)}px">
+    <button class="pp-close" onclick="event.stopPropagation();closePhPop()">✕</button>
+    <div class="pp-nm">${p.name}</div>
+    <div class="pp-row">📍 ${p.addr}<br>距您约 ${p.km.toFixed(1)} km · 👨‍⚕️ ${p.pharmacist}</div>
+    <div class="pp-row">📞 ${telHtml}</div>
+    <span class="pp-stock ${p.stock?'yes':'no'}">GLP-1 类药品：${p.stock?'有货':'缺货'}</span>
+    <button class="btn" style="margin-top:8px;padding:7px 0;font-size:.8rem" onclick="event.stopPropagation();navToPh(${p.id})">🧭 导航到店（模拟）</button>
+    <div class="pp-row" style="font-size:.66rem;color:#9A6B1F;background:#FFF7E8;border-radius:6px;padding:4px 6px;margin-top:6px">处方药须凭执业医师处方购买，到店前请电话咨询确认</div>
+  </div>`);
+  // 实测卡片高度，越界时翻到钉子下方，并钳制在地图可视范围内
+  const pop = map.querySelector('.ph-pop');
+  if(pop){
+    const h = pop.offsetHeight || 190;
+    if(y - h - 16 < 4){                       // 上方放不下 → 翻到下方
+      pop.classList.add('below');
+      pop.style.top = Math.max(4, Math.min(y, H - h - 6)) + 'px';
+    }else{
+      pop.style.top = Math.min(y, H + h) + 'px'; // 正常在钉子上方
+    }
+  }
+  // 点地图空白处关闭卡片（只绑定一次）
+  if(!map.dataset.popBound){
+    map.dataset.popBound = '1';
+    map.addEventListener('click', e=>{
+      if(map.dataset.dragMoved === '1'){ map.dataset.dragMoved = '0'; return; }
+      if(e.target.closest && e.target.closest('.ph-pop,.mk,.mk-svg')) return;
+      closePhPop();
+    });
+  }
+}
+function closePhPop(){
+  document.querySelectorAll('.ph-pop').forEach(el=>el.remove());
+  document.querySelectorAll('.mk.sel').forEach(el=>el.classList.remove('sel'));
+}
+/* 模拟跳转导航软件：演示环境不真实唤起外部 App（患者端复用内置 modal 容器） */
+let navTarget = null;
+function navToPh(id){
+  const p = PHARMACIES.find(v=>v.id===id); if(!p) return;
+  navTarget = p;
+  openModal(`<h3 style="margin-bottom:10px">导航到店（模拟）</h3>
+    <p class="tiny" style="margin-bottom:14px;line-height:1.8">目的地：${p.name}<br>地址：${p.addr}<br>距离：约 ${p.km.toFixed(1)} km</p>
+    <div class="grid2" style="gap:10px">
+      <button class="btn" style="background:#4A90D9" onclick="pickNav('高德地图')">高德地图</button>
+      <button class="btn" style="background:#3E7BFA" onclick="pickNav('百度地图')">百度地图</button>
+      <button class="btn" style="background:#2BB5A0" onclick="pickNav('腾讯地图')">腾讯地图</button>
+      <button class="btn" style="background:#9AA8A3" onclick="closeModal()">取消</button>
+    </div>`);
+}
+function pickNav(app){
+  closeModal();
+  if(!navTarget) return;
+  toast(`演示环境：已模拟打开「${app}」并规划到「${navTarget.name}」的路线`);
+  navTarget = null;
 }
 function finddrugView(){ /* 放在 SUBPAGES 之前定义，渲染期调用 */
-let dist=LS.get('XYWX_find_dist',2);
-const tiers=[1,2,4,8];
-const list=FIND_STORES.filter(s=>s.km<=dist);
-return topbar('精准找药')+`<div class="screen">
+  return topbar('精准找药')+`<div class="screen">
 <div class="r2-bar">⚠️ 处方药须凭执业医师处方购买，到店前请电话咨询确认。</div>
-<div class="card" style="padding:12px">
-  <div class="row between" style="margin-bottom:8px"><h3 style="margin:0"><span class="dot"></span>附近门店地图</h3><span class="tag">模拟地图</span></div>
-  ${drugMapSVG(dist)}
-  <div class="row" style="gap:14px;margin-top:8px;font-size:.68rem;color:var(--sub)">
-    <span><i style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#2BB5A0"></i> 有货</span>
-    <span><i style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#D9534F"></i> 缺货</span>
-    <span><i style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#2BB5A0;opacity:.35"></i> 超出范围</span>
+<div class="section-title" style="font-size:.95rem;margin-bottom:8px">附近药房 <span class="muted" style="font-size:.7rem">演示药店 25 家（1km 内 5 家 / 2km 内 11 家 / 4km 内 17 家 / 8km 内 25 家）</span></div>
+<div class="map-wrap">
+  <div class="dist-tabs" id="dist-tabs">
+    <button data-km="1" onclick="setKm(1)">1 km</button>
+    <button data-km="2" class="on" onclick="setKm(2)">2 km</button>
+    <button data-km="4" onclick="setKm(4)">4 km</button>
+    <button data-km="8" onclick="setKm(8)">8 km</button>
   </div>
+  <div id="osm-map">
+    <div id="map-layer"></div>
+    <svg id="map-svg" viewBox="0 0 340 300" style="display:none;width:100%;height:300px"></svg>
+    <div id="pan-hint">🖐 可拖动地图查看全部药店</div>
+    <button id="pan-reset" onclick="resetPan()" title="回到我的位置">⟲</button>
+  </div>
+  <p class="muted" style="font-size:.7rem;text-align:center;margin-top:6px">定位点：上海中信泰富广场（辉瑞上海总部所在地）· 地图数据 © 高德地图<br>药店名称/地址/电话经上海医保局、药监局 GSP 公示、连锁药房官网及高德地图多源交叉核实；库存为演示标注。仅提示「GLP-1 类药品」有货/缺货，不区分具体品牌。</p>
 </div>
-<div class="card"><h3><span class="dot"></span>查找范围</h3>
-  <div class="week-pill">${tiers.map(t=>`<button class="${dist===t?'on':''}" onclick="setDist(${t})">${t} km</button>`).join('')}</div>
-  <p class="tiny">库存为演示数据 · 页面不含价格与促销信息</p>
-</div>
-${list.length?list.map((s,idx)=>{const gi=FIND_STORES.indexOf(s);return `<div class="card" id="store-${gi}">
-  <div class="row between"><b style="font-size:.9rem">${s.n}</b><span class="tag ${s.inStock?'':'warn'}">${s.inStock?'先维盈：有货':'先维盈：缺货'}</span></div>
-  <div class="tiny" style="margin-top:6px">📍 距您约 ${s.km} km（预估 ${Math.max(6,Math.round(s.km*6))} 分钟车程）</div>
-  <div class="tiny" style="margin-top:4px">👩‍⚕️ ${s.ph}</div>
-  <div class="tiny" style="margin-top:4px">☎️ ${s.tel}</div>
-</div>`}).join(''):`<div class="card"><p class="muted">该范围内暂无门店（演示数据），可扩大范围重试。</p></div>`}
+<div id="ph-list"></div>
 </div>`;
 }
-/* ④ 精准找药（地图版，函数定义在上方） */
+/* ④ 精准找药（地图模块自公众端 v3.0 原样移植） */
 
 const SUBPAGES={
 /* ① 溯源中心 */
@@ -927,8 +1901,9 @@ trace(){
 /* 绑定新药盒 */
 bindbox(){
   return topbar('绑定新药盒')+`<div class="screen">
-  <div class="card"><div class="scan-box"><div class="corner c1"></div><div class="corner c2"></div><div class="corner c3"></div><div class="corner c4"></div><div class="scan-line"></div><div class="scan-txt">将药盒上的追溯码对准取景框</div></div>
-  <p class="tiny" style="text-align:center;margin-top:8px">模拟识别中，约 2 秒后自动完成…</p></div>
+  <div class="card"><div class="scan-box"><div class="corner c1"></div><div class="corner c2"></div><div class="corner c3"></div><div class="corner c4"></div><div class="scan-txt">虚拟药盒扫码演示</div></div>
+  <p class="tiny" style="text-align:center;margin:8px 0 10px">演示环境无真实药盒，点击下方按钮后展示虚拟扫码动画；不会调用手机相机</p>
+  <button class="btn" onclick="startNewBoxScan(this)">▣ 模拟扫码识别药盒</button></div>
   <div class="card"><h3><span class="dot"></span>手动选择 / 输入</h3>
     <div class="chip-group">${BOXES.filter(b=>!S.boxes.find(x=>x.code===b.code)).map(b=>`<button class="chip" onclick="addBox('${b.code}')">${b.code}</button>`).join('')||'<span class="tiny">5 个演示药盒均已绑定</span>'}</div>
     <div class="row" style="margin-top:12px"><input id="nb-input" placeholder="BOX-8842-0001" style="flex:1"><button class="btn sm" onclick="addBox($('#nb-input').value)">绑定</button></div>
@@ -938,11 +1913,12 @@ bindbox(){
 guide(){
   const cur=currentBox();
   return topbar('用药计划与专属指导')+`<div class="screen">
-  <div class="card"><h3><span class="dot"></span>剂量爬坡周计划（示意）<span class="tag">以医嘱为准</span></h3>
-    <table class="menu-table"><tr><th>阶段</th><th>周次</th><th>剂量（示意）</th><th>说明</th></tr>
-    ${[['起始期','第 1-4 周','0.25 mg / 周','建立耐受，关注胃肠反应'],['爬坡期','第 5-8 周','0.5 mg / 周','如医嘱调整则按新方案执行'],['维持期','第 9 周起','遵医嘱','定期复诊，勿自行加量']].map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td><td><b>${r[2]}</b></td><td style="text-align:left;padding-left:6px">${r[3]}</td></tr>`).join('')}
+  <div class="card"><h3><span class="dot"></span>我的处方与用药计划（演示）<span class="tag">以医嘱为准</span></h3>
+    <table class="menu-table"><tr><th>项目</th><th>当前模拟处方记录</th></tr>
+      <tr><td>当前记录剂量</td><td><b>0.25 mg / 周</b></td></tr>
+      <tr><td>后续剂量与调整</td><td style="text-align:left;padding-left:6px">由医生依据获批说明书和个体情况决定，请定期复诊，勿自行调整</td></tr>
     </table>
-    <p class="tiny" style="margin-top:8px">⚠️ 具体用药剂量与调整请务必以您主治医生的处方为准，本表仅为健康管理演示示意。</p>
+    <p class="tiny" style="margin-top:8px">⚠️ 本页仅展示当前模拟处方记录，不提供剂量递增建议。正式环境中的用药内容仅使用获批说明书及经审定的材料。</p>
   </div>
   <div class="card"><h3><span class="dot"></span>注射部位轮换图</h3>
     <svg viewBox="0 0 300 170" style="width:100%">
@@ -1075,6 +2051,7 @@ doctor(){
   </div>`
   :`<div class="card"><h3><span class="dot"></span>绑定我的医生</h3><p class="muted" style="margin-bottom:10px">绑定后可在平台内查看医生门诊信息；您主动共享的数据将同步至医生工作台。</p>
     <p class="tiny" style="margin-bottom:10px;line-height:1.7">实际环境仅支持<b>医生授权</b>绑定：扫描医生端「我的绑定码」二维码，或输入医生提供的唯一编号；<b>不能自由选择医生</b>。下方演示医生列表<span class="tag warn" style="margin:0">仅演示</span></p>
+    <button class="btn" style="margin-bottom:10px" onclick="openScanner('doc')">📷 扫描医生绑定码</button>
     <div class="row"><input id="bd-input" placeholder="输入医生唯一编号 DR-2026-000X" style="flex:1"><button class="btn sm" onclick="bindDocInput()">绑定</button></div>
     <div class="hr"></div>
     ${DOCTORS.map(dd=>`<div class="list-item" onclick='bindDoc(${JSON.stringify(dd.code)})'><div class="avatar">${dd.name[0]}</div>
@@ -1088,7 +2065,7 @@ share(){
   const items=[['weight','体重数据'],['waist','腰围数据'],['med','用药频次']];
   return topbar('数据共享授权')+`<div class="screen">
   <div class="card"><h3><span class="dot"></span>向我的医生共享</h3>
-    <p class="tiny" style="margin-bottom:10px">仅以下三项可授权，默认全部关闭。共享内容仅用于随访管理参考。</p>
+    <p class="tiny" style="margin-bottom:10px">绑定医生时已明确告知并授权以下三项，用于静默随访与依从预警。您可逐项调整或撤回，共享内容仅用于随访管理参考。</p>
     ${items.map(it=>`<div class="row between" style="padding:10px 0;border-bottom:1px dashed var(--line)">
       <div><b style="font-size:.88rem">${it[1]}</b><div class="tiny" style="margin-top:2px">${it[0]==='med'?'每周用药打卡次数与规律':'每次记录数值与日期'}</div></div>
       <label class="switch"><input type="checkbox" ${S.share[it[0]]?'checked':''} onchange="toggleShare('${it[0]}',this.checked)"><span class="sl"></span></label>
@@ -1156,6 +2133,70 @@ science(){
     <p class="tiny">活动为公益性患者教育（演示），页面不含任何药品推广信息。海报为演示样例。</p>
   </div></div>`;
 },
+/* ⑩ 积分商城（与公众端互通） */
+mall(){
+  return topbar('积分商城')+`<div class="screen">
+  <div class="card" style="background:linear-gradient(135deg,#2BB5A0,#49CDB6);color:#fff">
+    <div class="tiny" style="opacity:.85">我的积分（与公众端互通）</div>
+    <div style="font-size:2rem;font-weight:800;margin-top:2px">${S.points} <span style="font-size:.85rem;font-weight:400">分</span></div>
+    <div style="font-size:.72rem;opacity:.85;margin-top:4px">积分仅来自科普学习、健康记录与平台反馈</div>
+  </div>
+  <div class="card"><h3><span class="dot"></span>可兑换好物 <span class="tag">演示商品</span></h3>
+    ${MALL_GOODS.map(g=>`<div class="mall-item">
+      <div class="mi-ico">${g.icon}</div>
+      <div style="flex:1"><b style="font-size:.86rem">${g.name}</b><div class="tiny" style="margin-top:2px">${g.stock==='有货'?'<span style="color:var(--mint-dark)">有货</span>':'<span style="color:var(--warn)">补货中</span>'}</div></div>
+      <div style="text-align:right;flex:none"><b style="color:var(--mint-dark)">${g.cost}</b> <span class="tiny">积分</span><br>
+      <button class="btn sm ${g.stock==='有货'?'':'gray'}" style="margin-top:4px" onclick="${g.stock==='有货'?'jumpPublic()':''}">${g.stock==='有货'?'去兑换':'暂不可兑'}</button></div>
+    </div>`).join('')}
+  </div>
+  <button class="btn" onclick="jumpPublic()">🛍️ 前往「轻盈公众端」积分商城兑换（唤起）</button>
+  <p class="tiny" style="margin:10px 2px;line-height:1.7">商城仅提供健康生活类演示商品，与购药、持续用药、医生处方无关；无真实交易或发货。</p>
+  <div class="card" style="margin-top:12px"><h3><span class="dot"></span>积分说明</h3>
+    <div class="list-item"><span>📚</span><span style="font-size:.82rem">科普学习、健康记录（体重/腰围）、平台反馈与新用户注册可获得积分</span></div>
+    <div class="list-item"><span>🚫</span><span style="font-size:.82rem">购药、处方、药盒绑定、用药记录、续方均不产生积分或实物权益</span></div>
+    <div class="list-item"><span>🏅</span><span style="font-size:.82rem">患者里程碑仅提供无现金价值的自我激励徽章</span></div>
+    <div class="list-item"><span>🔗</span><span style="font-size:.82rem">积分存储于本机浏览器（XYWX_points），与公众端商城实时互通</span></div>
+  </div></div>`;
+},
+/* ⑪ 购药记录 */
+orders(){
+  seedPurchases();
+  return topbar('购药记录')+`<div class="screen">
+  <p class="tiny" style="margin:0 2px 10px">共 ${S.purchases.length} 笔记录 · 处方药须凭执业医师处方购买（演示数据）</p>
+  ${S.purchases.map(o=>`<div class="order-item" style="display:block">
+    <div class="order-head"><span>🧾 ${o.channel}</span><span style="color:var(--mint-dark)">${o.status}</span></div>
+    <div class="order-body">
+      ${o.items.map(it=>`<img class="thumb" src="${it.thumb}" alt="产品缩略图（演示包装）">
+      <div style="flex:1"><b style="font-size:.85rem">${it.name}</b><div class="tiny" style="margin-top:3px">${it.spec||'规格详见处方'}</div>
+      <div class="tiny" style="margin-top:3px">× ${it.qty}</div></div>`).join('')}
+    </div>
+    <div class="order-foot"><span>订单号 ${o.id}</span><span>${o.date} · ${o.way}</span></div>
+  </div>`).join('')}
+  <div class="grid2" style="position:sticky;bottom:76px">
+    <button class="btn" onclick="importOrders()">📥 一键导入外部电商订单</button>
+    <button class="btn ghost" onclick="openManualOrder()">✍️ 手动输入</button>
+  </div>
+  <p class="tiny" style="text-align:center;margin-top:8px">购药记录仅本地存储 · 导入与录入均为模拟功能</p></div>`;
+},
+/* ⑫ 问题反馈 */
+feedback(){
+  return topbar('问题反馈')+`<div class="screen">
+  <div class="card">
+    <h3><span class="dot"></span>选择反馈类型</h3>
+    <div class="chip-group" id="fb-cats">${['用药咨询','产品使用','购药/订单','平台功能','其他建议'].map(c=>`<button type="button" class="chip" onclick="pickFbCat(this,'${c}')">${c}</button>`).join('')}</div>
+  </div>
+  <div class="card">
+    <h3><span class="dot"></span>反馈内容</h3>
+    <div class="field"><textarea id="fb-text" rows="4" placeholder="请描述您遇到的问题或建议…（演示环境，不会真实提交）" style="resize:none"></textarea></div>
+    <div class="field"><label>联系方式（选填，手机号/微信号）</label><input id="fb-contact" placeholder="仅用于回复您的反馈"></div>
+    <label class="row" style="font-size:.8rem;gap:8px;margin-bottom:14px"><input type="checkbox" id="fb-reply" style="width:auto"> 我愿意收到反馈回复</label>
+    <button class="btn" onclick="submitFeedback()">提交反馈</button>
+    <p class="tiny" style="margin-top:8px">提交反馈可获得 5 积分（演示）；提交即表示同意平台在演示范围内处理反馈内容，数据仅本地存储。</p>
+  </div>
+  <div class="card"><h3><span class="dot"></span>反馈记录</h3>
+    ${(()=>{const list=LS.get('XYWX_feedback',[]);return list.length?[...list].reverse().slice(0,5).map(f=>`<div class="kv"><span>${f.date} · ${f.cat}</span><b>${f.text.slice(0,18)}${f.text.length>18?'…':''}</b></div>`).join(''):'<p class="muted">暂无反馈记录</p>'})()}
+  </div></div>`;
+},
 /* 模拟互联网医院（R3 统一出口） */
 internet_hospital(){
   return topbar('互联网医院（模拟）')+`<div class="screen">
@@ -1179,7 +2220,7 @@ legal(){
     <div class="hr"></div>
     <p class="muted" style="line-height:1.9;color:var(--red)">本品为处方药，请遵医嘱使用。</p>
     <div class="hr"></div>
-    <p class="tiny">平台名称：轻盈维先（演示环境）<br>数据说明：所有数据均为模拟数据，健康数据仅存储于本机浏览器。<br>徽章与积分仅为自我激励，无任何现金或实物回报承诺。</p>
+    <p class="tiny">平台名称：轻盈维先（演示环境）<br>数据说明：所有数据均为模拟数据，健康数据仅存储于本机浏览器。<br>患者里程碑仅提供无现金价值的自我激励徽章；积分仅来自科普学习、健康记录与平台反馈；购药、处方、药盒绑定、用药记录、续方均不产生积分。</p>
   </div></div>`;
 }
 };
@@ -1190,15 +2231,14 @@ function pushLegal(){openModal(`<h3 style="margin-bottom:10px">支持方与合�
 function afterSub(){
   if(S.sub==='trace'){const cv=$('#temp-chart');if(cv){const cur=currentBox();
     lineChart(cv,{labels:cur.temps.map((_,i)=>i%4===0?String(i*30/60).replace('.5','.5')+'h':''),data:cur.temps,min:-2,max:8,band:[2,8]})}}
-  if(S.sub==='bindbox'&&!S._scanTm){S._scanTm=setTimeout(()=>{S._scanTm=null;
-    const left=BOXES.filter(b=>!S.boxes.find(x=>x.code===b.code));
-    if(left.length&&S.sub==='bindbox'){addBox(left[0].code)}},2000)}
+  if(S.sub==='finddrug'){bindMapDrag();renderMap();renderPhList()}
 }
+function startNewBoxScan(btn){simulateScan('box','演示环境无真实药盒')}
 function addBox(code){
   const b=boxByCode((code||'').trim());
   if(!b){toast('编码无效，请输入 BOX-8842-0001 ~ BOX-8842-0005');return}
   if(!S.boxes.find(x=>x.code===b.code)){S.boxes.push(b);LS.set('XYWX_patient_boxes',S.boxes)}
-  S._curBox=b.code;S.points+=10;LS.set('XYWX_points',S.points);
+  S._curBox=b.code;
   S.subStack.pop();S.sub='trace';render();toast('药盒绑定成功：'+b.code);
 }
 function bindDoc(code){const d=DOCTORS.find(x=>x.code===code);if(!d)return;commitDoctor(d)}
@@ -1207,15 +2247,11 @@ function bindDocInput(){const v=$('#bd-input').value.trim();const d=DOCTORS.find
 function commitDoctor(d){
   S.doctor=d;LS.set('XYWX_doctor_profile',d);
   S.profile.doctor=d.code;LS.set('XYWX_patient_profile',S.profile);
-  const patients=LS.get('XYWX_doctor_patients',[]);
-  if(!patients.find(p=>p.pid===S.profile.pid)){
-    patients.push({pid:S.profile.pid,name:S.profile.nick,age:S.profile.age,bmi:bmiNow(),lastRecord:todayStr(),weeksOn:weeksOn(),adherence:92,status:'active'});
-    LS.set('XYWX_doctor_patients',patients);
-  }
-  render();toast('已绑定 '+d.name+' 医生');
+  S.share={weight:true,waist:true,med:true};LS.set('XYWX_share_settings',S.share);
+  syncFollowup();render();toast('已绑定 '+d.name+' 医生，并授权三项随访同步');
 }
-function toggleShare(k,on){S.share[k]=on;LS.set('XYWX_share_settings',S.share);toast(on?'已开启共享（仅该项）':'已撤回该项共享')}
-function revokeShare(){S.share={weight:false,waist:false,med:false};LS.set('XYWX_share_settings',S.share);toast('已全部撤回共享');if(S.sub==='share')render()}
+function toggleShare(k,on){S.share[k]=!!on;LS.set('XYWX_share_settings',S.share);syncFollowup();toast(on?'已开启共享（仅该项）':'已撤回该项共享，医生端已隐藏对应数据')}
+function revokeShare(){S.share={weight:false,waist:false,med:false};LS.set('XYWX_share_settings',S.share);syncFollowup();toast('已全部撤回共享');if(S.sub==='share')render()}
 function papApply(){
   openModal(`<div style="text-align:center"><div style="font-size:2.2rem">📮</div>
   <h3 style="margin:8px 0">申请已提交（模拟回执）</h3>
@@ -1290,7 +2326,14 @@ function wipeData(){
   <button class="btn gray" style="margin-top:8px" onclick="closeModal()">取消</button>`);
 }
 function doWipe(){
-  ['XYWX_patient_profile','XYWX_patient_records','XYWX_patient_meds','XYWX_patient_boxes','XYWX_doctor_profile','XYWX_share_settings','XYWX_moments','XYWX_reminders','XYWX_last_visit','XYWX_find_dist','XYWX_patient_goals','XYWX_event_signups'].forEach(k=>LS.del(k));
+  const pid=S.profile&&S.profile.pid;
+  if(pid){
+    const patients=LS.get('XYWX_doctor_patients',[]);
+    if(Array.isArray(patients))LS.set('XYWX_doctor_patients',patients.filter(p=>p&&p.pid!==pid));
+    const notices=LS.get('XYWX_patient_notices',[]);
+    if(Array.isArray(notices))LS.set('XYWX_patient_notices',notices.filter(n=>n&&n.pid!==pid));
+  }
+  ['XYWX_patient_profile','XYWX_patient_records','XYWX_patient_meds','XYWX_patient_boxes','XYWX_doctor_profile','XYWX_share_settings','XYWX_moments','XYWX_reminders','XYWX_last_visit','XYWX_find_dist','XYWX_patient_goals','XYWX_event_signups','XYWX_purchase_records','XYWX_feedback','XYWX_patient_notice_acks'].forEach(k=>LS.del(k));
   closeModal();location.reload();
 }
 
@@ -1320,7 +2363,7 @@ function viewMe(){
       <div><div style="font-size:1.3rem;font-weight:700;color:var(--mint-dark)">${S.points}</div><div class="tiny">积分（与公众端互通）</div></div>
       <div><div style="font-size:1.3rem;font-weight:700;color:var(--mint-dark)">${got}/10</div><div class="tiny">已获徽章</div></div>
     </div>
-    <p class="tiny" style="text-align:center;margin-top:8px">徽章与积分仅为自我激励，无任何现金或实物回报承诺</p>
+    <p class="tiny" style="text-align:center;margin-top:8px">患者里程碑仅提供无现金价值的自我激励徽章；积分仅来自科普学习、健康记录与平台反馈；购药、处方、药盒绑定、用药记录、续方均不产生积分</p>
   </div>
   <div class="card"><h3><span class="dot"></span>徽章墙</h3>
     <div class="badge-grid">${BADGES.map(b=>{const on=b.test();
@@ -1333,7 +2376,7 @@ function viewMe(){
   <div class="card">
     <div class="list-item" onclick="resetDemo()"><span style="font-size:1.2rem">🔁</span><div style="flex:1"><b style="font-size:.88rem">再来一次（重置演示）</b><div class="tiny">清除本地数据，重新体验注册绑定流程</div></div><span class="link">›</span></div>
   </div>
-  <p class="tiny" style="text-align:center">轻盈维先 v0.9 · 演示环境 · 数据为模拟数据</p>`;
+  <p class="tiny" style="text-align:center">轻盈维先 v2.0 · 演示环境 · 数据为模拟数据<br>三端生态矩阵统一版（2026-11-08）</p>`;
 }
 function resetDemo(){doWipe()}
 
