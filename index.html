@@ -611,7 +611,7 @@ function fillDemoProfile(){ /* 一键填写演示信息：28岁女士，已合�
   $('#pf-h').value=165;$('#pf-w').value=78;$('#pf-waist').value=80;
   const gw=$('#pf-gw');if(gw)gw.value=60;
   const gs=$('#pf-gwaist');if(gs)gs.value=65;
-  $$('#pf-meta .chip').forEach(c=>c.classList.toggle('on',['高血脂','PCOS','膝关节损伤'].includes(c.dataset.v)));
+  $$('#pf-meta .chip').forEach(c=>c.classList.toggle('on',['高血脂','PCOS','负重关节损伤'].includes(c.dataset.v)));
   if(!OB.doc&&!OB.noDoc){OB.doc=DOCTORS[0]}   /* 统一模拟人绑定医生：陈静怡（若已选"暂无医生"则尊重选择） */
   toast('已填入演示信息：初始 85kg/95cm → 当前 78kg/80cm，目标 60kg/65cm，已陪伴 2 个月 ✨');
 }
@@ -743,7 +743,8 @@ function onboardingHTML(){
       </div>
       <div class="field"><label>目标腰围（cm，可选）</label><input id="pf-gwaist" type="number" placeholder="如 88" value="${OB.profile.gwaist||''}"></div>
       <div class="field"><label>超重合并症情况（可多选）</label>
-        <div class="chip-group" id="pf-meta">${['高血脂','高血糖','高血压','高尿酸','脂肪肝','PCOS','膝关节损伤','睡眠呼吸暂停','甲减','无'].map(m=>`<button type="button" class="chip" data-v="${m}">${m}</button>`).join('')}</div>
+        <div class="chip-group" id="pf-meta">${['高血脂','高血糖','高血压','高尿酸','脂肪肝','PCOS','睡眠呼吸暂停','胰岛素抵抗','动脉粥样硬化斑块','哮喘','胃食管反流','胆结石','焦虑抑郁','负重关节损伤','其他','无'].map(m=>`<button type="button" class="chip" data-v="${m}">${m}</button>`).join('')}</div>
+        <input id="pf-meta-other" type="text" placeholder="请填写其他合并症" style="display:none;margin-top:8px;width:100%">
       </div>
       <p class="tiny">健康数据仅存储于本机浏览器（演示数据），详见「服务-隐私中心」。</p>
     </div>
@@ -756,6 +757,7 @@ function bindOnboarding(){
     const v=c.dataset.v;
     if(v==='无'){$$('#pf-meta .chip').forEach(x=>x.classList.toggle('on',x===c))}
     else{$('#pf-meta .chip[data-v="无"]').classList.remove('on');c.classList.toggle('on')}
+    const other=$('#pf-meta-other');if(other)other.style.display=$('#pf-meta .chip[data-v="其他"]').classList.contains('on')?'block':'none';
   });
 }
 /* ==================== 扫码：药盒仅虚拟演示；医生码真实相机优先，失败自动降级 ==================== */
@@ -932,6 +934,7 @@ function obFinish(){
   if(!nick){toast('请填写昵称');return}
   if(!age||!gender||!h||!w||!waist){toast('请完整填写建档信息');return}
   const meta=$$('#pf-meta .chip.on').map(c=>c.dataset.v);
+  if(meta.includes('其他')){const t=($('#pf-meta-other')&&$('#pf-meta-other').value.trim());meta[meta.indexOf('其他')]=t?('其他：'+t):'其他'}
   const gw=+($('#pf-gw')&&$('#pf-gw').value),gwaist=+($('#pf-gwaist')&&$('#pf-gwaist').value);
   if(gw>0)S.goals.weight=gw;if(gwaist>0)S.goals.waist=gwaist;saveGoals();
   const profile={pid:'P'+Date.now().toString(36).toUpperCase(),nick,age,gender,height:h,weight:w,waist,meta,created:todayStr(),doctor:OB.noDoc?null:(OB.doc?OB.doc.code:null)};
