@@ -10969,19 +10969,18 @@ async function openScanner(kind){
     if(v.readyState>=2&&v.videoWidth){
       try{
         let text=null;
-        if(detector){
+        /* 微信内优先使用内嵌 jsQR：避免原生 BarcodeDetector 持续返回空结果而阻塞识别 */
+        const scale=Math.min(1,960/v.videoWidth);
+        cv.width=Math.round(v.videoWidth*scale);cv.height=Math.round(v.videoHeight*scale);
+        ctx.drawImage(v,0,0,cv.width,cv.height);
+        const img=ctx.getImageData(0,0,cv.width,cv.height);
+        const decoded=window.jsQR&&window.jsQR(img.data,img.width,img.height,{inversionAttempts:'attemptBoth'});
+        if(decoded&&decoded.data)text=decoded.data;
+        if(!text&&detector){
           try{
             const codes=await detector.detect(v);
             if(codes&&codes.length)text=codes[0].rawValue;
-          }catch(e){detector=null}   /* 部分微信内核暴露接口但调用失败，转用内嵌 jsQR */
-        }
-        if(!text&&!detector){
-          const scale=Math.min(1,960/v.videoWidth);
-          cv.width=Math.round(v.videoWidth*scale);cv.height=Math.round(v.videoHeight*scale);
-          ctx.drawImage(v,0,0,cv.width,cv.height);
-          const img=ctx.getImageData(0,0,cv.width,cv.height);
-          const code=window.jsQR&&window.jsQR(img.data,img.width,img.height,{inversionAttempts:'attemptBoth'});
-          if(code&&code.data)text=code.data;
+          }catch(e){detector=null}
         }
         if(text){
           const code=parseScanCode(kind,text);
